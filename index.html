@@ -2,72 +2,88 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Cuento de Mati - Cepillarse los Dientes</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:system-ui,-apple-system,sans-serif;touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-select:none}
+html,body{width:100%;height:100%;overflow:hidden;font-family:system-ui,-apple-system,sans-serif;touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-select:none}
 .book{position:relative;width:100%;height:100%;overflow:hidden}
-.page{position:absolute;top:0;left:0;width:100%;height:100%;background-size:cover;background-position:center;background-repeat:no-repeat;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;transition:transform .5s cubic-bezier(.4,0,.2,1);will-change:transform}
+.page{position:absolute;top:0;left:0;width:100%;height:100%;background-size:contain;background-position:center;background-repeat:no-repeat;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;transition:transform .5s cubic-bezier(.4,0,.2,1);will-change:transform}
 .page.left{transform:translateX(-100%)}
 .page.center{transform:translateX(0)}
 .page.right{transform:translateX(100%)}
-.story-text{position:absolute;bottom:80px;left:5%;right:5%;background:rgba(0,0,0,.55);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);border-radius:16px;padding:16px 20px;color:#fff;font-size:clamp(14px,4vw,20px);line-height:1.5;text-align:center;text-shadow:0 1px 3px rgba(0,0,0,.7);z-index:10}
-.story-text.top{bottom:auto;top:20px}
-.nav{position:absolute;bottom:16px;left:0;right:0;display:flex;justify-content:center;gap:16px;z-index:20;padding:0 16px}
-.nav-btn{padding:12px 28px;border:none;border-radius:30px;background:rgba(255,255,255,.25);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#fff;font-size:clamp(14px,3.5vw,18px);font-weight:600;cursor:pointer;transition:background .2s,transform .1s;min-width:44px;min-height:44px;display:flex;align-items:center;justify-content:center}
+#page1{background-color:#87ceeb}
+#page2{background-color:#1a0a0a}
+#page3{background-color:#1a0a0a}
+#page4{background-color:#2d1a1a}
+#page5{background-color:#4a2c6e}
+
+.story-text{position:absolute;bottom:70px;left:4%;right:4%;background:rgba(0,0,0,.6);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-radius:16px;padding:14px 18px;color:#fff;font-size:clamp(14px,4vw,20px);line-height:1.5;text-align:center;text-shadow:0 1px 3px rgba(0,0,0,.7);z-index:10}
+.story-text.top{bottom:auto;top:10px}
+.nav{position:absolute;bottom:12px;left:0;right:0;display:flex;justify-content:center;gap:14px;z-index:20;padding:0 14px}
+.nav-btn{padding:11px 24px;border:none;border-radius:30px;background:rgba(255,255,255,.25);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#fff;font-size:clamp(13px,3.5vw,17px);font-weight:600;cursor:pointer;transition:background .2s,transform .1s;min-width:44px;min-height:44px;display:flex;align-items:center;justify-content:center}
 .nav-btn:active{transform:scale(.93);background:rgba(255,255,255,.4)}
 .nav-btn.hidden{display:none}
 .interactive-overlay{position:absolute;top:0;left:0;width:100%;height:100%;z-index:5;pointer-events:none}
 .interactive-overlay>*{pointer-events:auto}
 
-/* Bichitos */
-.bichito{position:absolute;width:40px;height:40px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#7cfc00,#228b22);cursor:pointer;animation:bounce 1s ease-in-out infinite;z-index:6;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.4);transition:opacity .3s,transform .3s}
-.bichito::before,.bichito::after{content:'';position:absolute;top:30%;width:7px;height:7px;border-radius:50%;background:#000}
-.bichito::before{left:25%}
-.bichito::after{right:25%}
-.bichito .mouth{position:absolute;bottom:22%;width:14px;height:7px;border-bottom:2px solid #000;border-radius:0 0 50% 50%}
+/* Bichitos - estilo matching illustration */
+.bichito{position:absolute;width:44px;height:38px;cursor:pointer;animation:bounce .9s ease-in-out infinite;z-index:6;transition:opacity .3s,transform .3s}
+.bichito-body{width:100%;height:100%;border-radius:50% 50% 45% 45%;background:radial-gradient(ellipse at 40% 35%,#8fef6f,#3ea832);position:relative;box-shadow:0 3px 8px rgba(0,0,0,.5)}
+.bichito-eye{position:absolute;top:25%;width:12px;height:13px;border-radius:50%;background:#fff;box-shadow:inset 0 1px 2px rgba(0,0,0,.1)}
+.bichito-eye.left{left:20%}
+.bichito-eye.right{right:20%}
+.bichito-pupil{position:absolute;bottom:3px;left:50%;transform:translateX(-50%);width:6px;height:6px;border-radius:50%;background:#111}
+.bichito-mouth{position:absolute;bottom:18%;left:50%;transform:translateX(-50%);width:14px;height:7px;border-bottom:2.5px solid #2d6b1f;border-radius:0 0 50% 50%}
+.bichito-antenna{position:absolute;top:-8px;width:2px;height:10px;background:#3ea832}
+.bichito-antenna.left{left:30%;transform:rotate(-15deg)}
+.bichito-antenna.right{right:30%;transform:rotate(15deg)}
+.bichito-antenna::after{content:'';position:absolute;top:-4px;left:-2px;width:6px;height:6px;border-radius:50%;background:#5dd44a}
+.bichito-leg{position:absolute;bottom:-3px;width:2px;height:7px;background:#3ea832;border-radius:1px}
+.bichito-leg.l1{left:15%;transform:rotate(-20deg)}
+.bichito-leg.l2{left:35%;transform:rotate(-5deg)}
+.bichito-leg.l3{left:55%}
+.bichito-leg.r1{right:15%;transform:rotate(20deg)}
+.bichito-leg.r2{right:35%;transform:rotate(5deg)}
+.bichito-leg.r3{right:55%}
 .bichito.dead{opacity:0;transform:scale(0);pointer-events:none}
-@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes bounce{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-5px) rotate(2deg)}}
 
-/* Splat particles */
-.splat{position:absolute;width:8px;height:8px;border-radius:50%;background:#7cfc00;pointer-events:none;animation:splatAnim .5s ease-out forwards;z-index:15}
-@keyframes splatAnim{0%{opacity:1;transform:scale(1) translate(0,0)}100%{opacity:0;transform:scale(0) translate(var(--dx),var(--dy))}}
+/* Splat */
+.splat{position:fixed;width:8px;height:8px;border-radius:50%;pointer-events:none;animation:splatAnim .5s ease-out forwards;z-index:100}
+@keyframes splatAnim{0%{opacity:1;transform:translate(0,0) scale(1)}100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(0)}}
 
-/* Brush animation */
-.brush-anim{position:absolute;width:30px;height:50px;background:linear-gradient(to bottom,#87ceeb 60%,#fff 60%);border-radius:4px 4px 8px 8px;pointer-events:none;animation:brushSwipe .4s ease-out forwards;z-index:14;opacity:.9}
-@keyframes brushSwipe{0%{transform:translateX(-30px) rotate(-10deg);opacity:1}100%{transform:translateX(30px) rotate(10deg);opacity:0}}
+/* Brush */
+.brush-anim{position:fixed;width:28px;height:48px;background:linear-gradient(to bottom,#5bc0eb 55%,#fff 55%);border-radius:4px 4px 6px 6px;pointer-events:none;animation:brushSwipe .4s ease-out forwards;z-index:99;opacity:.9}
+@keyframes brushSwipe{0%{transform:translateX(-25px) rotate(-8deg);opacity:1}100%{transform:translateX(25px) rotate(8deg);opacity:0}}
 
 /* Shimmer */
-.shimmer-overlay{position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.5) 50%,transparent 60%);z-index:12;pointer-events:none;animation:shimmer 1s ease-in-out forwards;opacity:0}
-@keyframes shimmer{0%{opacity:0;background-position:-100% 0}30%{opacity:1}100%{opacity:0;background-position:200% 0}}
+.shimmer-overlay{position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.4) 50%,transparent 65%);z-index:12;pointer-events:none;animation:shimmerMove 1.2s ease-in-out forwards}
+@keyframes shimmerMove{0%{left:-100%}100%{left:100%}}
 
-/* Tongue tap zone */
-.tongue-zone{position:absolute;top:25%;left:20%;width:60%;height:50%;border-radius:40%;cursor:pointer;z-index:6;background:rgba(255,255,255,.05);border:2px dashed rgba(255,255,255,.3);transition:background .15s}
-.tongue-zone:active{background:rgba(255,255,255,.15)}
+/* Tongue zone */
+.tongue-zone{position:absolute;top:22%;left:18%;width:64%;height:52%;border-radius:45%;cursor:pointer;z-index:6;background:rgba(255,255,255,.03);border:2px dashed rgba(255,255,255,.25);transition:background .15s}
+.tongue-zone:active{background:rgba(255,255,255,.12)}
 
 /* Progress dots */
-.progress-dots{position:absolute;top:12px;left:50%;transform:translateX(-50%);display:flex;gap:12px;z-index:15}
-.progress-dot{width:28px;height:32px;background:rgba(255,255,255,.3);clip-path:polygon(50% 0%,63% 8%,75% 18%,80% 35%,78% 55%,70% 75%,60% 90%,50% 100%,40% 90%,30% 75%,22% 55%,20% 35%,25% 18%,37% 8%);transition:background .3s,box-shadow .3s}
+.progress-dots{position:absolute;top:10px;left:50%;transform:translateX(-50%);display:flex;gap:10px;z-index:15}
+.progress-dot{width:26px;height:30px;background:rgba(255,255,255,.2);clip-path:polygon(50% 0%,63% 8%,75% 18%,80% 35%,78% 55%,70% 75%,60% 90%,50% 100%,40% 90%,30% 75%,22% 55%,20% 35%,25% 18%,37% 8%);transition:background .3s,box-shadow .3s}
 .progress-dot.filled{background:#fff;box-shadow:0 0 10px rgba(255,255,255,.8)}
 
 /* Foam */
-.foam-bubble{position:absolute;border-radius:50%;background:rgba(255,255,255,.6);pointer-events:none;animation:foamRise 1.5s ease-out forwards;z-index:13}
-@keyframes foamRise{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-40px) scale(.3)}}
+.foam-bubble{position:fixed;border-radius:50%;background:rgba(255,255,255,.6);pointer-events:none;animation:foamRise 1.5s ease-out forwards;z-index:98}
+@keyframes foamRise{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-50px) scale(.3)}}
 
 /* Confetti */
-.confetti{position:absolute;width:10px;height:10px;pointer-events:none;animation:confettiFall var(--dur) linear forwards;z-index:15;opacity:.9}
+.confetti{position:absolute;pointer-events:none;animation:confettiFall var(--dur) linear forwards;z-index:15;opacity:.9}
 @keyframes confettiFall{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
 
 /* Sparkle */
 .sparkle{position:absolute;width:6px;height:6px;background:#fff;border-radius:50%;pointer-events:none;animation:sparkleAnim 2s ease-in-out infinite;z-index:14}
-@keyframes sparkleAnim{0%,100%{opacity:0;transform:scale(0)}50%{opacity:1;transform:scale(1)}}
-
-/* Typewriter */
-.typewriter{overflow:hidden;white-space:normal}
+@keyframes sparkleAnim{0%,100%{opacity:0;transform:scale(0)}50%{opacity:1;transform:scale(1.2)}}
 
 /* Success message */
-.success-msg{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,.7);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-radius:20px;padding:20px 32px;color:#fff;font-size:clamp(18px,5vw,28px);font-weight:700;z-index:18;animation:popIn .4s ease-out;pointer-events:none}
+.success-msg{position:absolute;top:45%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,.7);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-radius:20px;padding:20px 32px;color:#fff;font-size:clamp(20px,6vw,32px);font-weight:700;z-index:18;animation:popIn .4s ease-out;pointer-events:none}
 @keyframes popIn{0%{transform:translate(-50%,-50%) scale(0)}60%{transform:translate(-50%,-50%) scale(1.1)}100%{transform:translate(-50%,-50%) scale(1)}}
 </style>
 </head>
@@ -129,14 +145,14 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:sys
 </div>
 
 <script>
-// ===== STATE =====
+// STATE
 let currentPage = 1;
 let bichitosLeft = 8;
 let tongueTaps = 0;
 let audioCtx = null;
 let page5Played = false;
 
-// ===== AUDIO =====
+// AUDIO
 function getAudioCtx(){
   if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   if(audioCtx.state === 'suspended') audioCtx.resume();
@@ -148,33 +164,28 @@ function playPop(){
     const ctx = getAudioCtx();
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
-    osc.connect(gain);
-    gain.connect(ctx.destination);
+    osc.connect(gain); gain.connect(ctx.destination);
     osc.type = 'sine';
     osc.frequency.setValueAtTime(600, ctx.currentTime);
     osc.frequency.exponentialRampToValueAtTime(200, ctx.currentTime + 0.15);
     gain.gain.setValueAtTime(0.3, ctx.currentTime);
     gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.15);
-    osc.start(ctx.currentTime);
-    osc.stop(ctx.currentTime + 0.15);
+    osc.start(ctx.currentTime); osc.stop(ctx.currentTime + 0.15);
   }catch(e){}
 }
 
 function playSuccess(){
   try{
     const ctx = getAudioCtx();
-    const notes = [523, 659, 784];
-    notes.forEach((freq, i) => {
+    [523,659,784].forEach((freq, i) => {
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
-      osc.connect(gain);
-      gain.connect(ctx.destination);
+      osc.connect(gain); gain.connect(ctx.destination);
       osc.type = 'triangle';
-      osc.frequency.setValueAtTime(freq, ctx.currentTime + i * 0.12);
-      gain.gain.setValueAtTime(0.25, ctx.currentTime + i * 0.12);
-      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + i * 0.12 + 0.3);
-      osc.start(ctx.currentTime + i * 0.12);
-      osc.stop(ctx.currentTime + i * 0.12 + 0.3);
+      osc.frequency.setValueAtTime(freq, ctx.currentTime + i*.12);
+      gain.gain.setValueAtTime(0.25, ctx.currentTime + i*.12);
+      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + i*.12 + 0.3);
+      osc.start(ctx.currentTime + i*.12); osc.stop(ctx.currentTime + i*.12 + 0.3);
     });
   }catch(e){}
 }
@@ -182,51 +193,38 @@ function playSuccess(){
 function playCelebration(){
   try{
     const ctx = getAudioCtx();
-    const melody = [523, 587, 659, 698, 784, 880, 988, 1047];
-    melody.forEach((freq, i) => {
+    [523,587,659,698,784,880,988,1047].forEach((freq, i) => {
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
-      osc.connect(gain);
-      gain.connect(ctx.destination);
+      osc.connect(gain); gain.connect(ctx.destination);
       osc.type = 'square';
-      osc.frequency.setValueAtTime(freq, ctx.currentTime + i * 0.15);
-      gain.gain.setValueAtTime(0.12, ctx.currentTime + i * 0.15);
-      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + i * 0.15 + 0.25);
-      osc.start(ctx.currentTime + i * 0.15);
-      osc.stop(ctx.currentTime + i * 0.15 + 0.25);
+      osc.frequency.setValueAtTime(freq, ctx.currentTime + i*.15);
+      gain.gain.setValueAtTime(0.12, ctx.currentTime + i*.15);
+      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + i*.15 + 0.25);
+      osc.start(ctx.currentTime + i*.15); osc.stop(ctx.currentTime + i*.15 + 0.25);
     });
   }catch(e){}
 }
 
-// ===== HAPTIC =====
-function vibrate(ms){
-  try{ if(navigator.vibrate) navigator.vibrate(ms || 30); }catch(e){}
-}
+// HAPTIC
+function vibrate(ms){ try{ if(navigator.vibrate) navigator.vibrate(ms||30); }catch(e){} }
 
-// ===== TYPEWRITER =====
-function typewriter(el, text, speed = 40){
+// TYPEWRITER
+function typewriter(el, text, speed=40){
   el.textContent = '';
-  el.classList.add('typewriter');
   let i = 0;
-  function type(){
-    if(i < text.length){
-      el.textContent += text[i];
-      i++;
-      setTimeout(type, speed);
-    }
-  }
+  function type(){ if(i<text.length){ el.textContent+=text[i]; i++; setTimeout(type,speed); } }
   type();
 }
 
-// ===== NAVIGATION =====
+// NAVIGATION
 function goTo(page){
-  if(page < 1 || page > 5) return;
-  const pages = document.querySelectorAll('.page');
-  pages.forEach((p, idx) => {
-    const num = idx + 1;
-    if(num === page) p.className = 'page center';
-    else if(num < page) p.className = 'page left';
-    else p.className = 'page right';
+  if(page<1||page>5) return;
+  document.querySelectorAll('.page').forEach((p,idx)=>{
+    const num = idx+1;
+    if(num===page) p.className='page center';
+    else if(num<page) p.className='page left';
+    else p.className='page right';
   });
   currentPage = page;
   onPageEnter(page);
@@ -234,30 +232,57 @@ function goTo(page){
 
 const pageTexts = [
   'Mati y papá estaban comiendo un almuerzo delicioso. ¡Qué rico!',
-  '¡Oh no! Después de comer, unos bichitos traviesos aparecieron entre los dientes de Mati. ¡Hay que sacarlos!',
-  '¡Toca los bichitos para cepillarlos!',
-  '¡Ahora la lengua! Tócala 3 veces para cepillarla.',
-  '¡Mati tiene los dientes limpios! ¡Papá está muy orgulloso!'
+  '¡Oh no! Después de comer, unos bichitos traviesos aparecieron entre los dientes. ¡Hay que sacarlos!',
+  '¡Toca los bichitos verdes para limpiarlos con el cepillo!',
+  '¡Ahora la lengua! Tócala 3 veces para cepillarla bien.',
+  '¡Mati tiene los dientes súper limpios! ¡Papá está muy orgulloso! 🎉'
 ];
 
 let enteredPages = new Set([1]);
 function onPageEnter(page){
   if(!enteredPages.has(page)){
     enteredPages.add(page);
-    const el = document.getElementById('text' + page);
-    if(el) typewriter(el, pageTexts[page - 1], 35);
+    const el = document.getElementById('text'+page);
+    if(el) typewriter(el, pageTexts[page-1], 35);
   }
-  if(page === 5 && !page5Played){
+  if(page===5 && !page5Played){
     page5Played = true;
-    setTimeout(() => { spawnConfetti(); playCelebration(); }, 400);
+    setTimeout(()=>{ spawnConfetti(); playCelebration(); }, 400);
   }
 }
 
-// ===== BICHITOS (PAGE 3) =====
+// BICHITOS (PAGE 3)
 const bichPositions = [
-  {top:'35%',left:'12%'},{top:'30%',left:'32%'},{top:'33%',left:'52%'},{top:'36%',left:'72%'},
-  {top:'55%',left:'18%'},{top:'52%',left:'38%'},{top:'54%',left:'58%'},{top:'56%',left:'76%'}
+  {top:'28%',left:'10%'},{top:'30%',left:'30%'},{top:'28%',left:'50%'},{top:'30%',left:'70%'},
+  {top:'58%',left:'14%'},{top:'60%',left:'34%'},{top:'58%',left:'54%'},{top:'60%',left:'74%'}
 ];
+
+function createBichito(pos, i){
+  const b = document.createElement('div');
+  b.className = 'bichito';
+  b.style.top = pos.top;
+  b.style.left = pos.left;
+  b.style.animationDelay = (i*0.1)+'s';
+
+  b.innerHTML = `
+    <div class="bichito-body">
+      <div class="bichito-antenna left"></div>
+      <div class="bichito-antenna right"></div>
+      <div class="bichito-eye left"><div class="bichito-pupil"></div></div>
+      <div class="bichito-eye right"><div class="bichito-pupil"></div></div>
+      <div class="bichito-mouth"></div>
+      <div class="bichito-leg l1"></div>
+      <div class="bichito-leg l2"></div>
+      <div class="bichito-leg l3"></div>
+      <div class="bichito-leg r1"></div>
+      <div class="bichito-leg r2"></div>
+      <div class="bichito-leg r3"></div>
+    </div>
+  `;
+
+  b.addEventListener('pointerdown', (e) => tapBichito(e, b));
+  return b;
+}
 
 function createBichitos(){
   const area = document.getElementById('bichitosArea');
@@ -265,22 +290,13 @@ function createBichitos(){
   bichitosLeft = 8;
   document.getElementById('nav3next').classList.add('hidden');
   bichPositions.forEach((pos, i) => {
-    const b = document.createElement('div');
-    b.className = 'bichito';
-    b.style.top = pos.top;
-    b.style.left = pos.left;
-    b.style.animationDelay = (i * 0.12) + 's';
-    const mouth = document.createElement('div');
-    mouth.className = 'mouth';
-    b.appendChild(mouth);
-    b.addEventListener('pointerdown', (e) => tapBichito(e, b));
-    area.appendChild(b);
+    area.appendChild(createBichito(pos, i));
   });
 }
 
 function tapBichito(e, el){
   if(el.classList.contains('dead')) return;
-  e.preventDefault();
+  e.preventDefault(); e.stopPropagation();
   vibrate(30);
   playPop();
 
@@ -288,129 +304,138 @@ function tapBichito(e, el){
   const rect = el.getBoundingClientRect();
   const cx = rect.left + rect.width/2;
   const cy = rect.top + rect.height/2;
-  for(let i = 0; i < 8; i++){
+  for(let i=0; i<10; i++){
     const p = document.createElement('div');
     p.className = 'splat';
-    const angle = (Math.PI * 2 / 8) * i;
-    const dist = 20 + Math.random() * 20;
-    p.style.left = cx + 'px';
-    p.style.top = cy + 'px';
-    p.style.setProperty('--dx', Math.cos(angle) * dist + 'px');
-    p.style.setProperty('--dy', Math.sin(angle) * dist + 'px');
-    p.style.background = ['#7cfc00','#32cd32','#adff2f','#00fa9a'][i % 4];
+    const angle = (Math.PI*2/10)*i;
+    const dist = 25 + Math.random()*25;
+    p.style.left = cx+'px';
+    p.style.top = cy+'px';
+    p.style.setProperty('--dx', Math.cos(angle)*dist+'px');
+    p.style.setProperty('--dy', Math.sin(angle)*dist+'px');
+    p.style.background = ['#7cfc00','#32cd32','#adff2f','#00fa9a','#98fb98'][i%5];
     document.body.appendChild(p);
-    setTimeout(() => p.remove(), 600);
+    setTimeout(()=>p.remove(), 600);
   }
 
   // Brush animation
   const brush = document.createElement('div');
   brush.className = 'brush-anim';
-  brush.style.left = (rect.left - 15) + 'px';
-  brush.style.top = (rect.top - 5) + 'px';
+  brush.style.left = (rect.left-10)+'px';
+  brush.style.top = (rect.top-5)+'px';
   document.body.appendChild(brush);
-  setTimeout(() => brush.remove(), 500);
+  setTimeout(()=>brush.remove(), 500);
 
-  // Remove bichito
+  // Foam bubbles
+  for(let i=0; i<4; i++){
+    const fb = document.createElement('div');
+    fb.className = 'foam-bubble';
+    fb.style.left = (cx-10+Math.random()*20)+'px';
+    fb.style.top = (cy-10+Math.random()*20)+'px';
+    fb.style.width = fb.style.height = (5+Math.random()*8)+'px';
+    document.body.appendChild(fb);
+    setTimeout(()=>fb.remove(), 1600);
+  }
+
+  // Kill bichito
   el.classList.add('dead');
   bichitosLeft--;
 
   if(bichitosLeft <= 0){
-    setTimeout(() => {
+    setTimeout(()=>{
       playSuccess();
       // Shimmer
       const shimmer = document.createElement('div');
       shimmer.className = 'shimmer-overlay';
       document.getElementById('page3').appendChild(shimmer);
-      setTimeout(() => shimmer.remove(), 1200);
+      setTimeout(()=>shimmer.remove(), 1400);
+      // Success message
+      const msg = document.createElement('div');
+      msg.className = 'success-msg';
+      msg.textContent = '¡Muy bien! ¡Dientes limpios!';
+      document.getElementById('page3').appendChild(msg);
+      setTimeout(()=>msg.remove(), 2500);
       // Show next
       document.getElementById('nav3next').classList.remove('hidden');
     }, 400);
   }
 }
 
-// ===== TONGUE (PAGE 4) =====
+// TONGUE (PAGE 4)
 function setupTongue(){
   tongueTaps = 0;
-  document.querySelectorAll('.progress-dot').forEach(d => d.classList.remove('filled'));
+  document.querySelectorAll('.progress-dot').forEach(d=>d.classList.remove('filled'));
   document.getElementById('nav4next').classList.add('hidden');
-  const zone = document.getElementById('tongueZone');
-  zone.addEventListener('pointerdown', tapTongue);
+  document.getElementById('tongueZone').addEventListener('pointerdown', tapTongue);
 }
 
 function tapTongue(e){
-  if(tongueTaps >= 3) return;
+  if(tongueTaps>=3) return;
   e.preventDefault();
   vibrate(40);
   playPop();
   tongueTaps++;
 
-  // Fill dot
-  const dot = document.getElementById('dot' + (tongueTaps - 1));
+  const dot = document.getElementById('dot'+(tongueTaps-1));
   if(dot) dot.classList.add('filled');
 
-  // Foam bubbles
+  // Foam
   const rect = e.target.getBoundingClientRect();
-  for(let i = 0; i < 5; i++){
+  for(let i=0;i<6;i++){
     const fb = document.createElement('div');
     fb.className = 'foam-bubble';
-    fb.style.left = (rect.left + Math.random() * rect.width) + 'px';
-    fb.style.top = (rect.top + Math.random() * rect.height) + 'px';
-    fb.style.width = fb.style.height = (8 + Math.random() * 12) + 'px';
+    fb.style.left = (rect.left+Math.random()*rect.width)+'px';
+    fb.style.top = (rect.top+Math.random()*rect.height)+'px';
+    fb.style.width = fb.style.height = (8+Math.random()*14)+'px';
     document.body.appendChild(fb);
-    setTimeout(() => fb.remove(), 1600);
+    setTimeout(()=>fb.remove(), 1600);
   }
 
-  if(tongueTaps >= 3){
-    setTimeout(() => {
+  if(tongueTaps>=3){
+    setTimeout(()=>{
       playSuccess();
       document.getElementById('nav4next').classList.remove('hidden');
-      // Success message
       const msg = document.createElement('div');
       msg.className = 'success-msg';
-      msg.textContent = '¡Muy bien!';
+      msg.textContent = '¡Muy bien! ¡Lengua limpia!';
       document.getElementById('page4').appendChild(msg);
-      setTimeout(() => msg.remove(), 2000);
+      setTimeout(()=>msg.remove(), 2500);
     }, 300);
   }
 }
 
-// ===== CONFETTI (PAGE 5) =====
+// CONFETTI (PAGE 5)
 function spawnConfetti(){
-  const colors = ['#ff6b6b','#feca57','#48dbfb','#ff9ff3','#54a0ff','#5f27cd','#01a3a4','#f368e0','#ff9f43','#ee5a24'];
+  const colors = ['#ff6b6b','#feca57','#48dbfb','#ff9ff3','#54a0ff','#5f27cd','#01a3a4','#f368e0','#ff9f43'];
   const page5El = document.getElementById('page5');
-  for(let i = 0; i < 50; i++){
+  for(let i=0;i<50;i++){
     const c = document.createElement('div');
     c.className = 'confetti';
-    c.style.left = Math.random() * 100 + '%';
+    c.style.left = Math.random()*100+'%';
     c.style.top = '-20px';
-    c.style.background = colors[i % colors.length];
-    c.style.setProperty('--dur', (1.5 + Math.random() * 2) + 's');
-    c.style.animationDelay = (Math.random() * 1.5) + 's';
-    c.style.width = (6 + Math.random() * 8) + 'px';
-    c.style.height = (6 + Math.random() * 8) + 'px';
-    c.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+    c.style.background = colors[i%colors.length];
+    c.style.setProperty('--dur', (1.5+Math.random()*2)+'s');
+    c.style.animationDelay = (Math.random()*1.5)+'s';
+    c.style.width = (6+Math.random()*8)+'px';
+    c.style.height = (6+Math.random()*8)+'px';
+    c.style.borderRadius = Math.random()>.5?'50%':'2px';
     page5El.appendChild(c);
-    setTimeout(() => c.remove(), 4000);
+    setTimeout(()=>c.remove(), 5000);
   }
-  // Sparkles
-  for(let i = 0; i < 12; i++){
+  for(let i=0;i<12;i++){
     const s = document.createElement('div');
     s.className = 'sparkle';
-    s.style.left = (10 + Math.random() * 80) + '%';
-    s.style.top = (10 + Math.random() * 70) + '%';
-    s.style.animationDelay = (Math.random() * 2) + 's';
+    s.style.left = (10+Math.random()*80)+'%';
+    s.style.top = (10+Math.random()*60)+'%';
+    s.style.animationDelay = (Math.random()*2)+'s';
     page5El.appendChild(s);
-    setTimeout(() => s.remove(), 5000);
+    setTimeout(()=>s.remove(), 6000);
   }
 }
 
-// ===== INIT =====
+// INIT
 function init(){
-  // Set initial text for page 1
-  const t1 = document.getElementById('text1');
-  typewriter(t1, pageTexts[0], 35);
-
-  // Setup interactive pages
+  typewriter(document.getElementById('text1'), pageTexts[0], 35);
   createBichitos();
   setupTongue();
 }
