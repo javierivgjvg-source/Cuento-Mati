@@ -17,7 +17,6 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:system-ui,-apple-sy
 #page3{background-color:#1a0a0a}
 #page4{background-color:#2d1a1a}
 #page5{background-color:#4a2c6e}
-
 .story-text{position:absolute;bottom:70px;left:4%;right:4%;background:rgba(0,0,0,.6);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-radius:16px;padding:14px 18px;color:#fff;font-size:clamp(14px,4vw,20px);line-height:1.5;text-align:center;text-shadow:0 1px 3px rgba(0,0,0,.7);z-index:10}
 .story-text.top{bottom:auto;top:10px}
 .nav{position:absolute;bottom:12px;left:0;right:0;display:flex;justify-content:center;gap:14px;z-index:20;padding:0 14px}
@@ -26,8 +25,6 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:system-ui,-apple-sy
 .nav-btn.hidden{display:none}
 .interactive-overlay{position:absolute;top:0;left:0;width:100%;height:100%;z-index:5;pointer-events:none}
 .interactive-overlay>*{pointer-events:auto}
-
-/* Bichitos */
 .bichito{position:absolute;width:50px;height:44px;cursor:pointer;animation:bounce .9s ease-in-out infinite;z-index:6;transition:all .5s ease}
 .bichito-body{width:100%;height:100%;border-radius:50% 50% 45% 45%;background:radial-gradient(ellipse at 40% 35%,#8fef6f,#3ea832);position:relative;box-shadow:0 3px 10px rgba(0,255,0,.4),0 2px 6px rgba(0,0,0,.3)}
 .bichito-eye{position:absolute;top:22%;width:14px;height:15px;border-radius:50%;background:#fff;box-shadow:inset 0 1px 2px rgba(0,0,0,.1)}
@@ -42,11 +39,9 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:system-ui,-apple-sy
 .bichito.foaming{animation:none;opacity:.6;transform:scale(.7)}
 .bichito.dead{opacity:0;transform:scale(0) translateY(-20px);pointer-events:none}
 @keyframes bounce{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-6px) rotate(2deg)}}
-
-/* Toothbrush */
 .toothbrush{position:fixed;pointer-events:none;z-index:99;display:flex;flex-direction:column;align-items:center}
-.brush-handle{width:14px;height:55px;background:linear-gradient(to right,#4db8e8,#2196F3,#4db8e8);border-radius:6px;position:relative}
-.brush-head{width:24px;height:32px;background:#fff;border-radius:4px 4px 8px 8px;position:relative;margin-top:-2px;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.brush-handle{width:14px;height:55px;background:linear-gradient(to right,#4db8e8,#2196F3,#4db8e8);border-radius:6px}
+.brush-head{width:24px;height:32px;background:#fff;border-radius:4px 4px 8px 8px;margin-top:-2px;box-shadow:0 1px 3px rgba(0,0,0,.2);position:relative}
 .brush-bristle{position:absolute;width:3px;height:10px;background:#a8d8f0;border-radius:0 0 2px 2px}
 .brush-bristle:nth-child(1){left:3px;top:18px}
 .brush-bristle:nth-child(2){left:8px;top:18px}
@@ -54,53 +49,35 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:system-ui,-apple-sy
 .brush-bristle:nth-child(4){left:18px;top:18px}
 .toothbrush.brushing{animation:brushMove .8s ease-in-out}
 @keyframes brushMove{0%{transform:translateX(-15px) rotate(-5deg)}25%{transform:translateX(15px) rotate(5deg)}50%{transform:translateX(-10px) rotate(-3deg)}75%{transform:translateX(10px) rotate(3deg)}100%{transform:translateX(0) rotate(0)}}
-
-/* Foam/espuma */
 .foam-cloud{position:fixed;pointer-events:none;z-index:97;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.9),rgba(200,230,255,.6));animation:foamGrow .6s ease-out forwards}
 @keyframes foamGrow{0%{opacity:0;transform:scale(0)}50%{opacity:1;transform:scale(1.2)}100%{opacity:0;transform:scale(1.5) translateY(-15px)}}
 .foam-bubble{position:fixed;border-radius:50%;background:rgba(255,255,255,.7);pointer-events:none;animation:bubbleFloat 1.8s ease-out forwards;z-index:98;border:1px solid rgba(255,255,255,.3)}
 @keyframes bubbleFloat{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-60px) translateX(var(--drift)) scale(.2)}}
-
-/* Splat */
 .splat{position:fixed;width:8px;height:8px;border-radius:50%;pointer-events:none;animation:splatAnim .6s ease-out forwards;z-index:100}
 @keyframes splatAnim{0%{opacity:1;transform:translate(0,0) scale(1)}100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(0)}}
-
-/* Shimmer */
 .shimmer-overlay{position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.4) 50%,transparent 65%);z-index:12;pointer-events:none;animation:shimmerMove 1.2s ease-in-out forwards}
 @keyframes shimmerMove{0%{left:-100%}100%{left:100%}}
-
-/* Tongue zone */
 .tongue-zone{position:absolute;top:20%;left:15%;width:70%;height:55%;border-radius:40%;cursor:pointer;z-index:6;background:rgba(255,255,255,.08);border:3px dashed rgba(255,255,255,.4);transition:all .15s;display:flex;align-items:center;justify-content:center}
 .tongue-zone::after{content:'👅 Toca aquí';color:rgba(255,255,255,.6);font-size:clamp(14px,4vw,18px);font-weight:500}
 .tongue-zone:active{background:rgba(255,255,255,.2);transform:scale(.97)}
 .tongue-zone.done::after{content:'✨'}
-
-/* Progress dots */
 .progress-dots{position:absolute;top:10px;left:50%;transform:translateX(-50%);display:flex;gap:12px;z-index:15}
 .progress-dot{width:28px;height:32px;background:rgba(255,255,255,.2);clip-path:polygon(50% 0%,63% 8%,75% 18%,80% 35%,78% 55%,70% 75%,60% 90%,50% 100%,40% 90%,30% 75%,22% 55%,20% 35%,25% 18%,37% 8%);transition:all .4s}
 .progress-dot.filled{background:#fff;box-shadow:0 0 12px rgba(255,255,255,.9);transform:scale(1.1)}
-
-/* Confetti */
 .confetti{position:absolute;pointer-events:none;animation:confettiFall var(--dur) linear forwards;z-index:15;opacity:.9}
 @keyframes confettiFall{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
-
-/* Sparkle */
 .sparkle{position:absolute;width:8px;height:8px;background:#fff;border-radius:50%;pointer-events:none;animation:sparkleAnim 2s ease-in-out infinite;z-index:14}
 @keyframes sparkleAnim{0%,100%{opacity:0;transform:scale(0)}50%{opacity:1;transform:scale(1.3)}}
-
-/* Success message */
 .success-msg{position:absolute;top:45%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,.75);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-radius:20px;padding:20px 36px;color:#fff;font-size:clamp(22px,6vw,34px);font-weight:700;z-index:18;animation:popIn .4s ease-out;pointer-events:none}
 @keyframes popIn{0%{transform:translate(-50%,-50%) scale(0)}60%{transform:translate(-50%,-50%) scale(1.1)}100%{transform:translate(-50%,-50%) scale(1)}}
 </style>
 </head>
 <body>
 <div class="book" id="book">
-
 <div class="page center" id="page1" style="background-image:url('images/page1.png')">
 <p class="story-text" id="text1"></p>
 <div class="nav"><button class="nav-btn" onclick="goTo(2)">Siguiente →</button></div>
 </div>
-
 <div class="page right" id="page2" style="background-image:url('images/page2.png')">
 <p class="story-text" id="text2"></p>
 <div class="nav">
@@ -108,7 +85,6 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:system-ui,-apple-sy
 <button class="nav-btn" onclick="goTo(3)">Siguiente →</button>
 </div>
 </div>
-
 <div class="page right" id="page3" style="background-image:url('images/page3.png')">
 <p class="story-text top" id="text3"></p>
 <div class="interactive-overlay" id="bichitosArea"></div>
@@ -117,7 +93,6 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:system-ui,-apple-sy
 <button class="nav-btn hidden" id="nav3next" onclick="goTo(4)">Siguiente →</button>
 </div>
 </div>
-
 <div class="page right" id="page4" style="background-image:url('images/page4.png')">
 <p class="story-text top" id="text4"></p>
 <div class="progress-dots" id="tongueDots">
@@ -133,122 +108,33 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:system-ui,-apple-sy
 <button class="nav-btn hidden" id="nav4next" onclick="goTo(5)">Siguiente →</button>
 </div>
 </div>
-
 <div class="page right" id="page5" style="background-image:url('images/page5.png')">
 <p class="story-text" id="text5"></p>
 <div class="nav"><button class="nav-btn" onclick="goTo(4)">← Atrás</button></div>
 </div>
-
 </div>
-
 <script>
-let currentPage=1, bichitosLeft=8, tongueTaps=0, audioCtx=null, page5Played=false;
-
-function getAudioCtx(){
-  if(!audioCtx) audioCtx=new(window.AudioContext||window.webkitAudioContext)();
-  if(audioCtx.state==='suspended') audioCtx.resume();
-  return audioCtx;
-}
-function playPop(){
-  try{const c=getAudioCtx(),o=c.createOscillator(),g=c.createGain();
-  o.connect(g);g.connect(c.destination);o.type='sine';
-  o.frequency.setValueAtTime(600,c.currentTime);
-  o.frequency.exponentialRampToValueAtTime(200,c.currentTime+.15);
-  g.gain.setValueAtTime(.3,c.currentTime);
-  g.gain.exponentialRampToValueAtTime(.01,c.currentTime+.15);
-  o.start(c.currentTime);o.stop(c.currentTime+.15)}catch(e){}
-}
-function playSuccess(){
-  try{const c=getAudioCtx();
-  [523,659,784].forEach((f,i)=>{const o=c.createOscillator(),g=c.createGain();
-  o.connect(g);g.connect(c.destination);o.type='triangle';
-  o.frequency.setValueAtTime(f,c.currentTime+i*.12);
-  g.gain.setValueAtTime(.25,c.currentTime+i*.12);
-  g.gain.exponentialRampToValueAtTime(.01,c.currentTime+i*.12+.3);
-  o.start(c.currentTime+i*.12);o.stop(c.currentTime+i*.12+.3)})}catch(e){}
-}
-function playCelebration(){
-  try{const c=getAudioCtx();
-  [523,587,659,698,784,880,988,1047].forEach((f,i)=>{const o=c.createOscillator(),g=c.createGain();
-  o.connect(g);g.connect(c.destination);o.type='square';
-  o.frequency.setValueAtTime(f,c.currentTime+i*.15);
-  g.gain.setValueAtTime(.12,c.currentTime+i*.15);
-  g.gain.exponentialRampToValueAtTime(.01,c.currentTime+i*.15+.25);
-  o.start(c.currentTime+i*.15);o.stop(c.currentTime+i*.15+.25)})}catch(e){}
-}
+let currentPage=1,bichitosLeft=8,tongueTaps=0,audioCtx=null,page5Played=false;
+function getAudioCtx(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==='suspended')audioCtx.resume();return audioCtx}
+function playPop(){try{const c=getAudioCtx(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type='sine';o.frequency.setValueAtTime(600,c.currentTime);o.frequency.exponentialRampToValueAtTime(200,c.currentTime+.15);g.gain.setValueAtTime(.3,c.currentTime);g.gain.exponentialRampToValueAtTime(.01,c.currentTime+.15);o.start(c.currentTime);o.stop(c.currentTime+.15)}catch(e){}}
+function playSuccess(){try{const c=getAudioCtx();[523,659,784].forEach((f,i)=>{const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type='triangle';o.frequency.setValueAtTime(f,c.currentTime+i*.12);g.gain.setValueAtTime(.25,c.currentTime+i*.12);g.gain.exponentialRampToValueAtTime(.01,c.currentTime+i*.12+.3);o.start(c.currentTime+i*.12);o.stop(c.currentTime+i*.12+.3)})}catch(e){}}
+function playCelebration(){try{const c=getAudioCtx();[523,587,659,698,784,880,988,1047].forEach((f,i)=>{const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type='square';o.frequency.setValueAtTime(f,c.currentTime+i*.15);g.gain.setValueAtTime(.12,c.currentTime+i*.15);g.gain.exponentialRampToValueAtTime(.01,c.currentTime+i*.15+.25);o.start(c.currentTime+i*.15);o.stop(c.currentTime+i*.15+.25)})}catch(e){}}
 function vibrate(ms){try{navigator.vibrate&&navigator.vibrate(ms||30)}catch(e){}}
-function typewriter(el,text,speed){
-  el.textContent='';let i=0;
-  (function t(){if(i<text.length){el.textContent+=text[i];i++;setTimeout(t,speed||40)}})();
-}
+function typewriter(el,text,speed){el.textContent='';let i=0;(function t(){if(i<text.length){el.textContent+=text[i];i++;setTimeout(t,speed||40)}})()}
 
-function goTo(page){
-  if(page<1||page>5)return;
-  document.querySelectorAll('.page').forEach((p,idx)=>{
-    const n=idx+1;
-    p.className='page '+(n===page?'center':n<page?'left':'right');
-  });
-  currentPage=page; onPageEnter(page);
-}
-
-const pageTexts=[
-  'Mati y papá estaban comiendo un almuerzo delicioso. ¡Qué rico!',
-  '¡Oh no! Después de comer, unos bichitos aparecieron entre los dientes. ¡Hay que sacarlos!',
-  '¡Toca los bichitos verdes para limpiarlos!',
-  '¡Ahora la lengua! Toca 3 veces para cepillarla.',
-  '¡Mati tiene los dientes limpios! ¡Papá está muy orgulloso! 🎉'
-];
-let entered=new Set([1]);
-function onPageEnter(p){
-  if(!entered.has(p)){entered.add(p);const el=document.getElementById('text'+p);if(el)typewriter(el,pageTexts[p-1],35)}
-  if(p===5&&!page5Played){page5Played=true;setTimeout(()=>{spawnConfetti();playCelebration()},400)}
-}
-
-// BICHITOS
-const bichPos=[
-  {top:'25%',left:'8%'},{top:'25%',left:'28%'},{top:'25%',left:'48%'},{top:'25%',left:'68%'},
-  {top:'55%',left:'12%'},{top:'55%',left:'32%'},{top:'55%',left:'52%'},{top:'55%',left:'72%'}
-];
-
-function createBichitos(){
-  const area=document.getElementById('bichitosArea');
-  area.innerHTML='';bichitosLeft=8;
-  document.getElementById('nav3next').classList.add('hidden');
-  bichPos.forEach((pos,i)=>{
-    const b=document.createElement('div');
-    b.className='bichito';b.style.top=pos.top;b.style.left=pos.left;
-    b.style.animationDelay=(i*.12)+'s';
-    b.innerHTML=`<div class="bichito-body">
-      <div class="bichito-antenna l"></div><div class="bichito-antenna r"></div>
-      <div class="bichito-eye l"><div class="bichito-pupil"></div></div>
-      <div class="bichito-eye r"><div class="bichito-pupil"></div></div>
-      <div class="bichito-mouth"></div></div>`;
-    b.addEventListener('pointerdown',e=>tapBichito(e,b));
-    area.appendChild(b);
-  });
-}
-
-function tapBichito(e,el){
-  if(el.classList.contains('dead')||el.classList.contains('foaming'))return;
-  e.preventDefault();e.stopPropagation();
-  vibrate(50); playPop();
-
-  const rect=el.getBoundingClientRect();
-  const cx=rect.left+rect.width/2, cy=rect.top+rect.height/2;
-
-  // 1. Show toothbrush over bichito
+function showBrush(x,y,duration){
   const brush=document.createElement('div');
   brush.className='toothbrush brushing';
   brush.innerHTML='<div class="brush-head"><div class="brush-bristle"></div><div class="brush-bristle"></div><div class="brush-bristle"></div><div class="brush-bristle"></div></div><div class="brush-handle"></div>';
-  brush.style.left=(cx-12)+'px';
-  brush.style.top=(cy-70)+'px';
+  brush.style.left=(x-12)+'px';
+  brush.style.top=(y-70)+'px';
   document.body.appendChild(brush);
+  setTimeout(()=>brush.remove(),duration||850);
+  return brush;
+}
 
-  // 2. Bichito starts foaming
-  el.classList.add('foaming');
-
-  // 3. Spawn foam clouds and bubbles
-  for(let i=0;i<3;i++){
+function spawnFoam(cx,cy,count){
+  for(let i=0;i<(count||3);i++){
     setTimeout(()=>{
       const foam=document.createElement('div');
       foam.className='foam-cloud';
@@ -271,44 +157,48 @@ function tapBichito(e,el){
       setTimeout(()=>bub.remove(),1900);
     },i*100);
   }
+}
 
-  // 4. After brush animation, remove bichito with splat
+function goTo(page){
+  if(page<1||page>5)return;
+  document.querySelectorAll('.page').forEach((p,idx)=>{
+    const n=idx+1;
+    p.className='page '+(n===page?'center':n<page?'left':'right');
+  });
+  currentPage=page;onPageEnter(page);
+}
+const pageTexts=['Mati y papá estaban comiendo un almuerzo delicioso. ¡Qué rico!','¡Oh no! Después de comer, unos bichitos aparecieron entre los dientes. ¡Hay que sacarlos!','¡Toca los bichitos verdes para limpiarlos!','¡Ahora la lengua! Toca 3 veces para cepillarla.','¡Mati tiene los dientes limpios! ¡Papá está muy orgulloso! 🎉'];
+let entered=new Set([1]);
+function onPageEnter(p){if(!entered.has(p)){entered.add(p);const el=document.getElementById('text'+p);if(el)typewriter(el,pageTexts[p-1],35)}if(p===5&&!page5Played){page5Played=true;setTimeout(()=>{spawnConfetti();playCelebration()},400)}}
+
+// BICHITOS
+const bichPos=[{top:'25%',left:'8%'},{top:'25%',left:'28%'},{top:'25%',left:'48%'},{top:'25%',left:'68%'},{top:'55%',left:'12%'},{top:'55%',left:'32%'},{top:'55%',left:'52%'},{top:'55%',left:'72%'}];
+function createBichitos(){
+  const area=document.getElementById('bichitosArea');area.innerHTML='';bichitosLeft=8;
+  document.getElementById('nav3next').classList.add('hidden');
+  bichPos.forEach((pos,i)=>{
+    const b=document.createElement('div');b.className='bichito';b.style.top=pos.top;b.style.left=pos.left;
+    b.style.animationDelay=(i*.12)+'s';
+    b.innerHTML='<div class="bichito-body"><div class="bichito-antenna l"></div><div class="bichito-antenna r"></div><div class="bichito-eye l"><div class="bichito-pupil"></div></div><div class="bichito-eye r"><div class="bichito-pupil"></div></div><div class="bichito-mouth"></div></div>';
+    b.addEventListener('pointerdown',e=>tapBichito(e,b));area.appendChild(b);
+  });
+}
+function tapBichito(e,el){
+  if(el.classList.contains('dead')||el.classList.contains('foaming'))return;
+  e.preventDefault();e.stopPropagation();vibrate(50);playPop();
+  const rect=el.getBoundingClientRect();
+  const cx=rect.left+rect.width/2,cy=rect.top+rect.height/2;
+  showBrush(cx,cy,850);
+  el.classList.add('foaming');
+  spawnFoam(cx,cy,3);
   setTimeout(()=>{
-    brush.remove();
-    // Splat particles
-    for(let i=0;i<10;i++){
-      const p=document.createElement('div');
-      p.className='splat';
-      const angle=(Math.PI*2/10)*i;
-      const dist=20+Math.random()*25;
-      p.style.left=cx+'px';p.style.top=cy+'px';
-      p.style.setProperty('--dx',Math.cos(angle)*dist+'px');
-      p.style.setProperty('--dy',Math.sin(angle)*dist+'px');
-      p.style.background=['#7cfc00','#32cd32','#adff2f','#98fb98','#fff'][i%5];
-      document.body.appendChild(p);
-      setTimeout(()=>p.remove(),700);
-    }
-    el.classList.add('dead');
-    bichitosLeft--;
-    if(bichitosLeft<=0){
-      setTimeout(()=>{
-        playSuccess();
-        const shimmer=document.createElement('div');
-        shimmer.className='shimmer-overlay';
-        document.getElementById('page3').appendChild(shimmer);
-        setTimeout(()=>shimmer.remove(),1400);
-        const msg=document.createElement('div');
-        msg.className='success-msg';
-        msg.textContent='¡Muy bien! ¡Dientes limpios!';
-        document.getElementById('page3').appendChild(msg);
-        setTimeout(()=>msg.remove(),2500);
-        document.getElementById('nav3next').classList.remove('hidden');
-      },300);
-    }
+    for(let i=0;i<10;i++){const p=document.createElement('div');p.className='splat';const angle=(Math.PI*2/10)*i;const dist=20+Math.random()*25;p.style.left=cx+'px';p.style.top=cy+'px';p.style.setProperty('--dx',Math.cos(angle)*dist+'px');p.style.setProperty('--dy',Math.sin(angle)*dist+'px');p.style.background=['#7cfc00','#32cd32','#adff2f','#98fb98','#fff'][i%5];document.body.appendChild(p);setTimeout(()=>p.remove(),700)}
+    el.classList.add('dead');bichitosLeft--;
+    if(bichitosLeft<=0){setTimeout(()=>{playSuccess();const sh=document.createElement('div');sh.className='shimmer-overlay';document.getElementById('page3').appendChild(sh);setTimeout(()=>sh.remove(),1400);const msg=document.createElement('div');msg.className='success-msg';msg.textContent='¡Muy bien! ¡Dientes limpios!';document.getElementById('page3').appendChild(msg);setTimeout(()=>msg.remove(),2500);document.getElementById('nav3next').classList.remove('hidden')},300)}
   },850);
 }
 
-// TONGUE
+// TONGUE - AHORA CON CEPILLO
 function setupTongue(){
   tongueTaps=0;
   document.querySelectorAll('.progress-dot').forEach(d=>d.classList.remove('filled'));
@@ -320,28 +210,24 @@ function tapTongue(e){
   e.preventDefault();vibrate(40);playPop();tongueTaps++;
   const dot=document.getElementById('dot'+(tongueTaps-1));
   if(dot)dot.classList.add('filled');
+
+  // Cepillo aparece en la zona tocada
   const rect=e.target.getBoundingClientRect();
-  for(let i=0;i<8;i++){
-    const fb=document.createElement('div');
-    fb.className='foam-bubble';
-    fb.style.left=(rect.left+Math.random()*rect.width)+'px';
-    fb.style.top=(rect.top+Math.random()*rect.height)+'px';
-    fb.style.width=fb.style.height=(8+Math.random()*14)+'px';
-    fb.style.setProperty('--drift',(Math.random()*20-10)+'px');
-    document.body.appendChild(fb);
-    setTimeout(()=>fb.remove(),1900);
-  }
+  const cx=rect.left+rect.width/2;
+  const cy=rect.top+rect.height/2;
+  showBrush(cx,cy,800);
+  spawnFoam(cx,cy,2);
+
   if(tongueTaps>=3){
     document.getElementById('tongueZone').classList.add('done');
     setTimeout(()=>{
       playSuccess();
       document.getElementById('nav4next').classList.remove('hidden');
-      const msg=document.createElement('div');
-      msg.className='success-msg';
+      const msg=document.createElement('div');msg.className='success-msg';
       msg.textContent='¡Muy bien! ¡Lengua limpia!';
       document.getElementById('page4').appendChild(msg);
       setTimeout(()=>msg.remove(),2500);
-    },300);
+    },500);
   }
 }
 
@@ -349,30 +235,11 @@ function tapTongue(e){
 function spawnConfetti(){
   const colors=['#ff6b6b','#feca57','#48dbfb','#ff9ff3','#54a0ff','#5f27cd','#01a3a4','#f368e0','#ff9f43'];
   const el=document.getElementById('page5');
-  for(let i=0;i<50;i++){
-    const c=document.createElement('div');c.className='confetti';
-    c.style.left=Math.random()*100+'%';c.style.top='-20px';
-    c.style.background=colors[i%colors.length];
-    c.style.setProperty('--dur',(1.5+Math.random()*2)+'s');
-    c.style.animationDelay=(Math.random()*1.5)+'s';
-    c.style.width=(6+Math.random()*8)+'px';
-    c.style.height=(6+Math.random()*8)+'px';
-    c.style.borderRadius=Math.random()>.5?'50%':'2px';
-    el.appendChild(c);setTimeout(()=>c.remove(),5000);
-  }
-  for(let i=0;i<12;i++){
-    const s=document.createElement('div');s.className='sparkle';
-    s.style.left=(10+Math.random()*80)+'%';
-    s.style.top=(10+Math.random()*60)+'%';
-    s.style.animationDelay=(Math.random()*2)+'s';
-    el.appendChild(s);setTimeout(()=>s.remove(),6000);
-  }
+  for(let i=0;i<50;i++){const c=document.createElement('div');c.className='confetti';c.style.left=Math.random()*100+'%';c.style.top='-20px';c.style.background=colors[i%colors.length];c.style.setProperty('--dur',(1.5+Math.random()*2)+'s');c.style.animationDelay=(Math.random()*1.5)+'s';c.style.width=(6+Math.random()*8)+'px';c.style.height=(6+Math.random()*8)+'px';c.style.borderRadius=Math.random()>.5?'50%':'2px';el.appendChild(c);setTimeout(()=>c.remove(),5000)}
+  for(let i=0;i<12;i++){const s=document.createElement('div');s.className='sparkle';s.style.left=(10+Math.random()*80)+'%';s.style.top=(10+Math.random()*60)+'%';s.style.animationDelay=(Math.random()*2)+'s';el.appendChild(s);setTimeout(()=>s.remove(),6000)}
 }
 
-function init(){
-  typewriter(document.getElementById('text1'),pageTexts[0],35);
-  createBichitos();setupTongue();
-}
+function init(){typewriter(document.getElementById('text1'),pageTexts[0],35);createBichitos();setupTongue()}
 document.addEventListener('DOMContentLoaded',init);
 </script>
 </body>
