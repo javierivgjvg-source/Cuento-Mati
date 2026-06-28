@@ -1,0 +1,48 @@
+<div id="cover">
+<div class="cover-title">El Cuento de Mati</div>
+<div class="cover-subtitle">&#161;Vamos a cepillar los dientes!</div>
+<button class="start-btn" id="startBtn">&#9654; Comenzar</button>
+</div>
+<div class="book" id="book">
+<div class="page center" id="page1" style="background-image:url('images/page1.png')">
+<p class="story-text" id="text1"></p>
+<div class="nav"><button class="nav-btn" onclick="goTo(2)">Siguiente &#8594;</button></div>
+</div>
+<div class="page right" id="page2" style="background-image:url('images/page2.png')">
+<p class="story-text" id="text2"></p>
+<div class="nav">
+<button class="nav-btn" onclick="goTo(1)">&#8592; Atr&#225;s</button>
+<button class="nav-btn" onclick="goTo(3)">Siguiente &#8594;</button>
+</div>
+</div>
+<div class="page right" id="page3" style="background-image:url('images/page3.png')">
+<p class="story-text top" id="text3"></p>
+<div class="interactive-overlay" id="bichitosArea"></div>
+<div class="nav">
+<button class="nav-btn" onclick="goTo(2)">&#8592; Atr&#225;s</button>
+<button class="nav-btn hidden" id="nav3next" onclick="goTo(4)">Siguiente &#8594;</button>
+</div>
+</div>
+<div class="page right" id="page4" style="background-image:url('images/page4.png')">
+<p class="story-text top" id="text4"></p>
+<div class="progress-dots" id="tongueDots">
+<div class="progress-dot" id="dot0"></div>
+<div class="progress-dot" id="dot1"></div>
+<div class="progress-dot" id="dot2"></div>
+</div>
+<div class="interactive-overlay">
+<div class="tongue-zone" id="tongueZone"></div>
+</div>
+<div class="nav">
+<button class="nav-btn" onclick="goTo(3)">&#8592; Atr&#225;s</button>
+<button class="nav-btn hidden" id="nav4next" onclick="goTo(5)">Siguiente &#8594;</button>
+</div>
+</div>
+<div class="page right" id="page5" style="background-image:url('images/page5.png')">
+<p class="story-text" id="text5"></p>
+<div class="nav">
+<button class="nav-btn" onclick="goTo(4)">&#8592; Atr&#225;s</button>
+<button class="nav-btn" onclick="replayGame()">&#128260; Jugar de nuevo</button>
+</div>
+</div>
+</div>
