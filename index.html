@@ -1,32 +1,246 @@
-<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"><title>El Cuento de Mati</title><style>*{margin:0;padding:0;box-sizing:border-box}html,body{width:100%;height:100%;overflow:hidden;font-family:'Segoe UI',sans-serif;background:#1a1a2e;touch-action:manipulation;-webkit-user-select:none;user-select:none}#app{width:100%;height:100%;position:relative;overflow:hidden}.page{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px;opacity:0;pointer-events:none}.page.active{opacity:1;pointer-events:all}.page.sir{animation:sir .5s ease forwards}.page.sol{animation:sol .5s ease forwards}.page.sil{animation:sil .5s ease forwards}.page.sor{animation:sor .5s ease forwards}@keyframes sir{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}@keyframes sol{from{transform:translateX(0);opacity:1}to{transform:translateX(-100%);opacity:0}}@keyframes sil{from{transform:translateX(-100%);opacity:0}to{transform:translateX(0);opacity:1}}@keyframes sor{from{transform:translateX(0);opacity:1}to{transform:translateX(100%);opacity:0}}.nb{position:absolute;bottom:20px;background:rgba(255,255,255,.2);border:2px solid rgba(255,255,255,.5);color:#fff;padding:12px 24px;border-radius:30px;font-size:1rem;cursor:pointer;z-index:100;backdrop-filter:blur(4px)}.nb:active{transform:scale(.95)}.nb.l{left:16px}.nb.r{right:16px}.nb.h{display:none}.st{color:#fff;font-size:1.05rem;text-align:center;max-width:90%;line-height:1.6;min-height:2.5em;text-shadow:0 1px 3px rgba(0,0,0,.5);margin:8px 0}.p1{background:linear-gradient(180deg,#87CEEB 0%,#87CEEB 55%,#7EC850 55%,#4a8c2a 100%)}.p5{background:linear-gradient(180deg,#667eea 0%,#764ba2 100%)}.pm{background:radial-gradient(ellipse at center,#1a0505 0%,#0d0202 100%)}@keyframes bounce{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-6px) rotate(3deg)}}@keyframes shimmer{0%{opacity:0;left:-20%}50%{opacity:.8}100%{opacity:0;left:120%}}@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}@keyframes confetti-fall{0%{transform:translateY(-10px) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:.7}}@keyframes cloud-move{0%{transform:translateX(-100px)}100%{transform:translateX(calc(100vw + 100px))}}@keyframes typewriter{from{opacity:0}to{opacity:1}}.progress-bar{display:flex;gap:8px;margin:10px 0}.tooth-icon{width:20px;height:24px;background:#555;border-radius:4px 4px 6px 6px;transition:all .3s}.tooth-icon.done{background:#fff;box-shadow:0 0 8px #fff,0 0 16px rgba(255,255,255,.5)}</style></head><body><div id="app"></div><script>
-const T={p1:'Mati estaba almorzando con su papá. ¡La comida estaba deliciosa!',p2:'Pero después de comer... ¡aparecieron unos bichitos traviesos entre los dientes de Mati!',p3:'¡Ayuda a Mati! Toca cada bichito para limpiarlo con el cepillo.',p4:'¡Muy bien! Ahora hay que cepillar la lengua. ¡Tócala 3 veces!',p5:'¡Felicidades! ¡La boca de Mati está súper limpia!'};
-let currentPage=0,bichitosLeft=0,tongueCount=0,audioCtx=null;
-function initAudio(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)()}
-function playTone(f,d,t){initAudio();const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.connect(g);g.connect(audioCtx.destination);o.type=t||'sine';o.frequency.value=f;g.gain.setValueAtTime(.3,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.01,audioCtx.currentTime+d);o.start();o.stop(audioCtx.currentTime+d)}
-function playPop(){playTone(600,.15,'sine');setTimeout(()=>playTone(800,.1,'sine'),50)}
-function playSuccess(){[523,659,784].forEach((f,i)=>setTimeout(()=>playTone(f,.2,'sine'),i*150))}
-function playCelebration(){const n=[523,587,659,698,784,880,988,1047];n.forEach((f,i)=>setTimeout(()=>playTone(f,.25,'triangle'),i*180))}
-function vibrate(){try{navigator.vibrate&&navigator.vibrate(50)}catch(e){}}
-function typeWriter(el,text,cb){el.textContent='';let i=0;const iv=setInterval(()=>{if(i<text.length){el.textContent+=text[i];i++}else{clearInterval(iv);cb&&cb()}},50)}
-function createApp(){const app=document.getElementById('app');app.innerHTML=buildPages();showPage(0)}
-function buildPages(){return `<div class="page p1" id="pg0"><div class="st" id="t0"></div><svg viewBox="0 0 300 250" width="280" style="max-width:90%">${svgPage1()}</svg><button class="nb r" onclick="nav(1)">Siguiente →</button></div><div class="page pm" id="pg1"><div class="st" id="t1"></div><svg viewBox="0 0 320 360" width="300" style="max-width:95%" id="mouth1">${svgMouth(false)}</svg><button class="nb l" onclick="nav(-1)">← Atrás</button><button class="nb r" onclick="nav(1)">Siguiente →</button></div><div class="page pm" id="pg2"><div class="st" id="t2"></div><svg viewBox="0 0 320 360" width="300" style="max-width:95%" id="mouth2">${svgMouth(true)}</svg><div id="brush-container"></div><button class="nb l" onclick="nav(-1)">← Atrás</button><button class="nb r h" id="btn2">Siguiente →</button></div><div class="page pm" id="pg3"><div class="st" id="t3"></div><svg viewBox="0 0 320 300" width="280" style="max-width:90%" id="tongue-svg">${svgTongue()}</svg><div class="progress-bar" id="tprog">${'<div class="tooth-icon"></div>'.repeat(3)}</div><button class="nb l" onclick="nav(-1)">← Atrás</button><button class="nb r h" id="btn3">Siguiente →</button></div><div class="page p5" id="pg4"><div class="st" id="t4"></div><svg viewBox="0 0 300 250" width="280" style="max-width:90%">${svgPage5()}</svg><div id="confetti-box"></div></div>`}
-function svgPage1(){return `<rect x="0" y="0" width="300" height="250" fill="none"/><g id="clouds"><ellipse cx="-30" cy="40" rx="40" ry="18" fill="rgba(255,255,255,.8)" style="animation:cloud-move 20s linear infinite"/><ellipse cx="-80" cy="65" rx="35" ry="15" fill="rgba(255,255,255,.6)" style="animation:cloud-move 28s linear infinite 5s"/></g><rect x="80" y="160" width="140" height="60" rx="5" fill="#8B4513"/><rect x="90" y="155" width="30" height="15" rx="3" fill="#ddd"/><rect x="180" y="155" width="30" height="15" rx="3" fill="#ddd"/>${svgChar(110,100,false,'#8B5E3C',false)}${svgChar(190,90,true,'#5C3A1E',true)}`}
-function svgChar(x,y,tall,hair,dad){const h=tall?-10:0;return `<circle cx="${x}" cy="${y+h}" r="22" fill="#FDBF60"/><ellipse cx="${x}" cy="${y+55+h}" rx="18" ry="25" fill="${dad?'#3a6ea5':'#e74c3c'}"/><line x1="${x-20}" y1="${y+40+h}" x2="${x-28}" y2="${y+55+h}" stroke="#FDBF60" stroke-width="4" stroke-linecap="round"/><line x1="${x+20}" y1="${y+40+h}" x2="${x+28}" y2="${y+55+h}" stroke="#FDBF60" stroke-width="4" stroke-linecap="round"/><circle cx="${x-28}" cy="${y+57+h}" r="4" fill="#FDBF60"/><circle cx="${x+28}" cy="${y+57+h}" r="4" fill="#FDBF60"/><circle cx="${x-7}" cy="${y-3+h}" r="2.5" fill="#333"/><circle cx="${x+7}" cy="${y-3+h}" r="2.5" fill="#333"/><line x1="${x-10}" y1="${y-10+h}" x2="${x-4}" y2="${y-8+h}" stroke="#333" stroke-width="1.5"/><line x1="${x+4}" y1="${y-8+h}" x2="${x+10}" y2="${y-10+h}" stroke="#333" stroke-width="1.5"/><path d="M${x-8} ${y+5+h} Q${x} ${y+14+h} ${x+8} ${y+5+h}" stroke="#333" stroke-width="2" fill="none"/>${dad?`<circle cx="${x-7}" cy="${y-2+h}" r="6" fill="none" stroke="#333" stroke-width="1"/><circle cx="${x+7}" cy="${y-2+h}" r="6" fill="none" stroke="#333" stroke-width="1"/><g fill="#8B7355">${[...Array(5)].map((_,i)=>`<circle cx="${x-4+i*2}" cy="${y+12+h}" r=".8"/>`).join('')}</g>`:''}<path d="M${x-15} ${y-18+h} Q${x} ${y-32+h} ${x+15} ${y-18+h}" fill="${hair}" opacity=".9"/><path d="M${x-17} ${y-14+h} Q${x-20} ${y-28+h} ${x-5} ${y-25+h}" fill="${hair}" opacity=".7"/><path d="M${x+5} ${y-25+h} Q${x+20} ${y-28+h} ${x+17} ${y-14+h}" fill="${hair}" opacity=".7"/>`}
-function svgMouth(interactive){const teeth_top=[];const teeth_bot=[];const numTeeth=10;for(let i=0;i<numTeeth;i++){const x=32+i*(256/numTeeth);const w=256/numTeeth-3;teeth_top.push(`<rect x="${x}" y="28" width="${w}" height="38" rx="6" fill="url(#tg)" stroke="#eee" stroke-width=".5"/>`);teeth_bot.push(`<rect x="${x}" y="268" width="${w}" height="38" rx="6" fill="url(#tg)" stroke="#eee" stroke-width=".5"/>`)}
-let bichitos='';if(interactive){const positions=[[55,55],[105,55],[160,55],[215,55],[260,55],[55,278],[105,278],[160,278],[215,278],[260,278]];bichitosLeft=positions.length;positions.forEach((p,i)=>{const shade=['#4CAF50','#66BB6A','#388E3C','#43A047','#2E7D32'][i%5];const sz=8+Math.random()*4;bichitos+=`<g class="bichito" id="b${i}" data-idx="${i}" style="cursor:pointer;animation:bounce ${.8+Math.random()*.4}s ease-in-out infinite ${Math.random()*.5}s"><ellipse cx="${p[0]}" cy="${p[1]}" rx="${sz}" ry="${sz-2}" fill="${shade}"/><circle cx="${p[0]-3}" cy="${p[1]-2}" r="1.5" fill="#fff"/><circle cx="${p[0]+3}" cy="${p[1]-2}" r="1.5" fill="#fff"/><circle cx="${p[0]-3}" cy="${p[1]-2}" r=".8" fill="#111"/><circle cx="${p[0]+3}" cy="${p[1]-2}" r=".8" fill="#111"/><line x1="${p[0]-3}" y1="${p[1]-sz+1}" x2="${p[0]-5}" y2="${p[1]-sz-5}" stroke="${shade}" stroke-width="1.2" stroke-linecap="round"/><line x1="${p[0]+3}" y1="${p[1]-sz+1}" x2="${p[0]+5}" y2="${p[1]-sz-5}" stroke="${shade}" stroke-width="1.2" stroke-linecap="round"/><circle cx="${p[0]-5}" cy="${p[1]-sz-6}" r="1.5" fill="${shade}"/><circle cx="${p[0]+5}" cy="${p[1]-sz-6}" r="1.5" fill="${shade}"/><path d="M${p[0]-sz} ${p[1]+3} q-3 3 -1 5" stroke="${shade}" stroke-width="1" fill="none"/><path d="M${p[0]-sz+2} ${p[1]+5} q-3 2 -1 4" stroke="${shade}" stroke-width="1" fill="none"/><path d="M${p[0]-sz+4} ${p[1]+6} q-2 3 0 5" stroke="${shade}" stroke-width="1" fill="none"/><path d="M${p[0]+sz} ${p[1]+3} q3 3 1 5" stroke="${shade}" stroke-width="1" fill="none"/><path d="M${p[0]+sz-2} ${p[1]+5} q3 2 1 4" stroke="${shade}" stroke-width="1" fill="none"/><path d="M${p[0]+sz-4} ${p[1]+6} q2 3 0 5" stroke="${shade}" stroke-width="1" fill="none"/></g>`})}
-return `<defs><linearGradient id="tg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#fff"/><stop offset="100%" stop-color="#e8e8e8"/></linearGradient><linearGradient id="gg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#d32f2f"/><stop offset="100%" stop-color="#8b0000"/></linearGradient></defs><rect x="0" y="0" width="320" height="360" rx="20" fill="#0af" opacity=".3"/><ellipse cx="160" cy="180" rx="140" ry="160" fill="#7fdbff" opacity=".4"/><path d="M20 60 Q160 0 300 60 L300 20 Q160 -10 20 20 Z" fill="url(#gg)"/><path d="M20 300 Q160 360 300 300 L300 340 Q160 370 20 340 Z" fill="url(#gg)"/>${teeth_top.join('')}${teeth_bot.join('')}<ellipse cx="160" cy="320" rx="70" ry="25" fill="#e57373" opacity=".8"/>${bichitos}<rect id="shimmer-bar" x="-60" y="28" width="60" height="280" fill="url(#shimmerGrad)" opacity="0" style="pointer-events:none"/><defs><linearGradient id="shimmerGrad" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="rgba(255,255,255,0)"/><stop offset="50%" stop-color="rgba(255,255,255,.6)"/><stop offset="100%" stop-color="rgba(255,255,255,0)"/></linearGradient></defs>`}
-function svgTongue(){return `<defs><radialGradient id="tongue-grad"><stop offset="0%" stop-color="#f48fb1"/><stop offset="100%" stop-color="#e91e63"/></radialGradient></defs><rect width="320" height="300" fill="none"/><ellipse cx="160" cy="160" rx="120" ry="130" fill="url(#tongue-grad)" id="tongue-el" style="cursor:pointer"/><ellipse cx="130" cy="130" rx="8" ry="3" fill="rgba(255,255,255,.2)" transform="rotate(-15 130 130)"/><ellipse cx="190" cy="140" rx="6" ry="2.5" fill="rgba(255,255,255,.15)" transform="rotate(10 190 140)"/><path d="M100 160 Q160 200 220 160" stroke="rgba(0,0,0,.15)" stroke-width="2" fill="none"/>`}
-function svgPage5(){return `<rect width="300" height="250" fill="none"/>${svgCharCelebrate(100,100,false,'#8B5E3C',false)}${svgCharCelebrate(200,90,true,'#5C3A1E',true)}<text x="150" y="30" text-anchor="middle" font-size="18" fill="#fff" font-weight="bold">🎉 ¡Súper limpio! 🎉</text>`}
-function svgCharCelebrate(x,y,tall,hair,dad){const h=tall?-10:0;return `<circle cx="${x}" cy="${y+h}" r="22" fill="#FDBF60"/><ellipse cx="${x}" cy="${y+55+h}" rx="18" ry="25" fill="${dad?'#3a6ea5':'#e74c3c'}"/><line x1="${x-20}" y1="${y+35+h}" x2="${x-30}" y2="${y+5+h}" stroke="#FDBF60" stroke-width="4" stroke-linecap="round"/><line x1="${x+20}" y1="${y+35+h}" x2="${x+30}" y2="${y+5+h}" stroke="#FDBF60" stroke-width="4" stroke-linecap="round"/><circle cx="${x-30}" cy="${y+3+h}" r="4" fill="#FDBF60"/><circle cx="${x+30}" cy="${y+3+h}" r="4" fill="#FDBF60"/><circle cx="${x-7}" cy="${y-3+h}" r="2.5" fill="#333"/><circle cx="${x+7}" cy="${y-3+h}" r="2.5" fill="#333"/><path d="M${x-10} ${y+4+h} Q${x} ${y+16+h} ${x+10} ${y+4+h}" stroke="#333" stroke-width="2" fill="#fff"/>${dad?`<circle cx="${x-7}" cy="${y-2+h}" r="6" fill="none" stroke="#333" stroke-width="1"/><circle cx="${x+7}" cy="${y-2+h}" r="6" fill="none" stroke="#333" stroke-width="1"/>`:''}<path d="M${x-15} ${y-18+h} Q${x} ${y-32+h} ${x+15} ${y-18+h}" fill="${hair}" opacity=".9"/>`}
-function showPage(idx){const pages=document.querySelectorAll('.page');const dir=idx>currentPage?1:-1;pages.forEach((p,i)=>{if(i===currentPage&&i!==idx){p.classList.remove('active');p.classList.add(dir===1?'sol':'sor');setTimeout(()=>{p.classList.remove('sol','sor');p.style.opacity='0';p.style.pointerEvents='none'},500)}if(i===idx){setTimeout(()=>{p.classList.add('active',dir===1?'sir':'sil');p.style.opacity='1';p.style.pointerEvents='all';setTimeout(()=>p.classList.remove('sir','sil'),500)},50)}});currentPage=idx;setTimeout(()=>{const tid=`t${idx}`;const tel=document.getElementById(tid);if(tel){const texts=[T.p1,T.p2,T.p3,T.p4,T.p5];typeWriter(tel,texts[idx])}if(idx===2)setupBichitos();if(idx===3)setupTongue();if(idx===4){playCelebration();launchConfetti()}},100)}
-function nav(dir){const next=currentPage+dir;if(next>=0&&next<=4)showPage(next)}
-function setupBichitos(){const svg=document.getElementById('mouth2');if(!svg)return;svg.querySelectorAll('.bichito').forEach(b=>{b.onclick=function(e){e.stopPropagation();const idx=this.dataset.idx;tapBichito(this,idx)}})}
-function tapBichito(el,idx){vibrate();playPop();const rect=el.getBoundingClientRect();createSplat(rect.x+rect.width/2,rect.y+rect.height/2);showBrush(el);el.style.transition='transform .2s, opacity .2s';el.style.transform='scale(0.1)';el.style.opacity='0';setTimeout(()=>{el.remove();bichitosLeft--;if(bichitosLeft<=0){document.getElementById('btn2').classList.remove('h');document.getElementById('btn2').onclick=()=>nav(1);playSuccess();triggerShimmer()}},300)}
-function createSplat(x,y){for(let i=0;i<8;i++){const p=document.createElement('div');p.style.cssText=`position:fixed;left:${x}px;top:${y}px;width:6px;height:6px;border-radius:50%;background:hsl(${100+Math.random()*40},70%,50%);pointer-events:none;z-index:9999;transition:all .5s ease-out`;document.body.appendChild(p);const angle=Math.random()*Math.PI*2;const dist=30+Math.random()*30;setTimeout(()=>{p.style.left=x+Math.cos(angle)*dist+'px';p.style.top=y+Math.sin(angle)*dist+'px';p.style.opacity='0';p.style.transform='scale(0)'},10);setTimeout(()=>p.remove(),600)}}
-function showBrush(el){const svg=document.getElementById('mouth2');const box=el.getBBox();const bx=box.x,by=box.y;const brush=document.createElementNS('http://www.w3.org/2000/svg','g');brush.innerHTML=`<rect x="${bx-5}" y="${by-20}" width="12" height="40" rx="3" fill="#4FC3F7"/><rect x="${bx-8}" y="${by-22}" width="18" height="8" rx="2" fill="#fff"/>`;svg.appendChild(brush);let moves=0;const iv=setInterval(()=>{const off=moves%2===0?3:-3;brush.setAttribute('transform',`translate(${off},0)`);createBubble(svg,bx+Math.random()*10,by-25);moves++;if(moves>5){clearInterval(iv);brush.remove()}},120)}
-function createBubble(svg,x,y){const c=document.createElementNS('http://www.w3.org/2000/svg','circle');c.setAttribute('cx',x);c.setAttribute('cy',y);c.setAttribute('r',2+Math.random()*3);c.setAttribute('fill','rgba(255,255,255,.6)');c.style.transition='all .8s ease-out';svg.appendChild(c);setTimeout(()=>{c.setAttribute('cy',y-20-Math.random()*15);c.setAttribute('cx',x+(Math.random()-.5)*10);c.style.opacity='0'},50);setTimeout(()=>c.remove(),900)}
-function triggerShimmer(){const bar=document.querySelector('#mouth2 #shimmer-bar');if(bar){bar.style.opacity='1';bar.style.transition='transform 1s ease';bar.style.transform='translateX(380px)';setTimeout(()=>{bar.style.opacity='0';bar.style.transform='translateX(0)'},1100)}}
-function setupTongue(){tongueCount=0;const tel=document.getElementById('tongue-el');if(!tel)return;tel.onclick=function(){tongueCount++;vibrate();playPop();this.style.transition='transform .1s';this.style.transform='scale(.95)';setTimeout(()=>this.style.transform='scale(1)',100);const icons=document.querySelectorAll('.tooth-icon');if(icons[tongueCount-1])icons[tongueCount-1].classList.add('done');if(tongueCount>=3){document.getElementById('btn3').classList.remove('h');document.getElementById('btn3').onclick=()=>nav(1);playSuccess()}}}
-function launchConfetti(){const box=document.getElementById('confetti-box');if(!box)return;box.style.cssText='position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;overflow:hidden;z-index:50';const colors=['#ff6b9d','#c44dff','#ffd93d','#6bcf7f','#4dc9f6','#f67019','#ff9ff3'];for(let i=0;i<40;i++){const d=document.createElement('div');const c=colors[Math.floor(Math.random()*colors.length)];const sz=6+Math.random()*8;const left=Math.random()*100;const delay=Math.random()*2;const dur=2+Math.random()*2;d.style.cssText=`position:absolute;top:-20px;left:${left}%;width:${sz}px;height:${sz*(Math.random()>.5?1:2.5)}px;background:${c};border-radius:${Math.random()>.5?'50%':'2px'};animation:confetti-fall ${dur}s ease-in ${delay}s forwards`;box.appendChild(d)}}
-window.onload=createApp;document.addEventListener('pointerdown',initAudio,{once:true});
-</script></body></html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Cuento de Mati - Cepillarse los Dientes</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;font-family:system-ui,-apple-system,sans-serif;touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-select:none}
+.book{position:relative;width:100%;height:100%;overflow:hidden}
+.page{position:absolute;top:0;left:0;width:100%;height:100%;background-size:contain;background-position:center;background-repeat:no-repeat;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;transition:transform .5s cubic-bezier(.4,0,.2,1);will-change:transform}
+.page.left{transform:translateX(-100%)}
+.page.center{transform:translateX(0)}
+.page.right{transform:translateX(100%)}
+#page1{background-color:#87ceeb}
+#page2{background-color:#1a0a0a}
+#page3{background-color:#1a0a0a}
+#page4{background-color:#2d1a1a}
+#page5{background-color:#4a2c6e}
+.story-text{position:absolute;bottom:70px;left:4%;right:4%;background:rgba(0,0,0,.6);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-radius:16px;padding:14px 18px;color:#fff;font-size:clamp(14px,4vw,20px);line-height:1.5;text-align:center;text-shadow:0 1px 3px rgba(0,0,0,.7);z-index:10}
+.story-text.top{bottom:auto;top:10px}
+.nav{position:absolute;bottom:12px;left:0;right:0;display:flex;justify-content:center;gap:14px;z-index:20;padding:0 14px}
+.nav-btn{padding:11px 24px;border:none;border-radius:30px;background:rgba(255,255,255,.25);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#fff;font-size:clamp(13px,3.5vw,17px);font-weight:600;cursor:pointer;transition:background .2s,transform .1s;min-width:44px;min-height:44px;display:flex;align-items:center;justify-content:center}
+.nav-btn:active{transform:scale(.93);background:rgba(255,255,255,.4)}
+.nav-btn.hidden{display:none}
+.interactive-overlay{position:absolute;top:0;left:0;width:100%;height:100%;z-index:5;pointer-events:none}
+.interactive-overlay>*{pointer-events:auto}
+.bichito{position:absolute;width:50px;height:44px;cursor:pointer;animation:bounce .9s ease-in-out infinite;z-index:6;transition:all .5s ease}
+.bichito-body{width:100%;height:100%;border-radius:50% 50% 45% 45%;background:radial-gradient(ellipse at 40% 35%,#8fef6f,#3ea832);position:relative;box-shadow:0 3px 10px rgba(0,255,0,.4),0 2px 6px rgba(0,0,0,.3)}
+.bichito-eye{position:absolute;top:22%;width:14px;height:15px;border-radius:50%;background:#fff;box-shadow:inset 0 1px 2px rgba(0,0,0,.1)}
+.bichito-eye.l{left:18%}
+.bichito-eye.r{right:18%}
+.bichito-pupil{position:absolute;bottom:3px;left:50%;transform:translateX(-50%);width:7px;height:7px;border-radius:50%;background:#111}
+.bichito-mouth{position:absolute;bottom:16%;left:50%;transform:translateX(-50%);width:16px;height:8px;border-bottom:2.5px solid #2d6b1f;border-radius:0 0 50% 50%}
+.bichito-antenna{position:absolute;top:-10px;width:2.5px;height:12px;background:#3ea832}
+.bichito-antenna.l{left:28%;transform:rotate(-15deg)}
+.bichito-antenna.r{right:28%;transform:rotate(15deg)}
+.bichito-antenna::after{content:'';position:absolute;top:-5px;left:-3px;width:8px;height:8px;border-radius:50%;background:#5dd44a}
+.bichito.foaming{animation:none;opacity:.6;transform:scale(.7)}
+.bichito.dead{opacity:0;transform:scale(0) translateY(-20px);pointer-events:none}
+@keyframes bounce{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-6px) rotate(2deg)}}
+.toothbrush{position:fixed;pointer-events:none;z-index:99;display:flex;flex-direction:column;align-items:center}
+.brush-handle{width:14px;height:55px;background:linear-gradient(to right,#4db8e8,#2196F3,#4db8e8);border-radius:6px}
+.brush-head{width:24px;height:32px;background:#fff;border-radius:4px 4px 8px 8px;margin-top:-2px;box-shadow:0 1px 3px rgba(0,0,0,.2);position:relative}
+.brush-bristle{position:absolute;width:3px;height:10px;background:#a8d8f0;border-radius:0 0 2px 2px}
+.brush-bristle:nth-child(1){left:3px;top:18px}
+.brush-bristle:nth-child(2){left:8px;top:18px}
+.brush-bristle:nth-child(3){left:13px;top:18px}
+.brush-bristle:nth-child(4){left:18px;top:18px}
+.toothbrush.brushing{animation:brushMove .8s ease-in-out}
+@keyframes brushMove{0%{transform:translateX(-15px) rotate(-5deg)}25%{transform:translateX(15px) rotate(5deg)}50%{transform:translateX(-10px) rotate(-3deg)}75%{transform:translateX(10px) rotate(3deg)}100%{transform:translateX(0) rotate(0)}}
+.foam-cloud{position:fixed;pointer-events:none;z-index:97;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.9),rgba(200,230,255,.6));animation:foamGrow .6s ease-out forwards}
+@keyframes foamGrow{0%{opacity:0;transform:scale(0)}50%{opacity:1;transform:scale(1.2)}100%{opacity:0;transform:scale(1.5) translateY(-15px)}}
+.foam-bubble{position:fixed;border-radius:50%;background:rgba(255,255,255,.7);pointer-events:none;animation:bubbleFloat 1.8s ease-out forwards;z-index:98;border:1px solid rgba(255,255,255,.3)}
+@keyframes bubbleFloat{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-60px) translateX(var(--drift)) scale(.2)}}
+.splat{position:fixed;width:8px;height:8px;border-radius:50%;pointer-events:none;animation:splatAnim .6s ease-out forwards;z-index:100}
+@keyframes splatAnim{0%{opacity:1;transform:translate(0,0) scale(1)}100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(0)}}
+.shimmer-overlay{position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.4) 50%,transparent 65%);z-index:12;pointer-events:none;animation:shimmerMove 1.2s ease-in-out forwards}
+@keyframes shimmerMove{0%{left:-100%}100%{left:100%}}
+.tongue-zone{position:absolute;top:20%;left:15%;width:70%;height:55%;border-radius:40%;cursor:pointer;z-index:6;background:rgba(255,255,255,.08);border:3px dashed rgba(255,255,255,.4);transition:all .15s;display:flex;align-items:center;justify-content:center}
+.tongue-zone::after{content:'👅 Toca aquí';color:rgba(255,255,255,.6);font-size:clamp(14px,4vw,18px);font-weight:500}
+.tongue-zone:active{background:rgba(255,255,255,.2);transform:scale(.97)}
+.tongue-zone.done::after{content:'✨'}
+.progress-dots{position:absolute;top:10px;left:50%;transform:translateX(-50%);display:flex;gap:12px;z-index:15}
+.progress-dot{width:28px;height:32px;background:rgba(255,255,255,.2);clip-path:polygon(50% 0%,63% 8%,75% 18%,80% 35%,78% 55%,70% 75%,60% 90%,50% 100%,40% 90%,30% 75%,22% 55%,20% 35%,25% 18%,37% 8%);transition:all .4s}
+.progress-dot.filled{background:#fff;box-shadow:0 0 12px rgba(255,255,255,.9);transform:scale(1.1)}
+.confetti{position:absolute;pointer-events:none;animation:confettiFall var(--dur) linear forwards;z-index:15;opacity:.9}
+@keyframes confettiFall{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
+.sparkle{position:absolute;width:8px;height:8px;background:#fff;border-radius:50%;pointer-events:none;animation:sparkleAnim 2s ease-in-out infinite;z-index:14}
+@keyframes sparkleAnim{0%,100%{opacity:0;transform:scale(0)}50%{opacity:1;transform:scale(1.3)}}
+.success-msg{position:absolute;top:45%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,.75);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-radius:20px;padding:20px 36px;color:#fff;font-size:clamp(22px,6vw,34px);font-weight:700;z-index:18;animation:popIn .4s ease-out;pointer-events:none}
+@keyframes popIn{0%{transform:translate(-50%,-50%) scale(0)}60%{transform:translate(-50%,-50%) scale(1.1)}100%{transform:translate(-50%,-50%) scale(1)}}
+</style>
+</head>
+<body>
+<div class="book" id="book">
+<div class="page center" id="page1" style="background-image:url('images/page1.png')">
+<p class="story-text" id="text1"></p>
+<div class="nav"><button class="nav-btn" onclick="goTo(2)">Siguiente →</button></div>
+</div>
+<div class="page right" id="page2" style="background-image:url('images/page2.png')">
+<p class="story-text" id="text2"></p>
+<div class="nav">
+<button class="nav-btn" onclick="goTo(1)">← Atrás</button>
+<button class="nav-btn" onclick="goTo(3)">Siguiente →</button>
+</div>
+</div>
+<div class="page right" id="page3" style="background-image:url('images/page3.png')">
+<p class="story-text top" id="text3"></p>
+<div class="interactive-overlay" id="bichitosArea"></div>
+<div class="nav">
+<button class="nav-btn" onclick="goTo(2)">← Atrás</button>
+<button class="nav-btn hidden" id="nav3next" onclick="goTo(4)">Siguiente →</button>
+</div>
+</div>
+<div class="page right" id="page4" style="background-image:url('images/page4.png')">
+<p class="story-text top" id="text4"></p>
+<div class="progress-dots" id="tongueDots">
+<div class="progress-dot" id="dot0"></div>
+<div class="progress-dot" id="dot1"></div>
+<div class="progress-dot" id="dot2"></div>
+</div>
+<div class="interactive-overlay">
+<div class="tongue-zone" id="tongueZone"></div>
+</div>
+<div class="nav">
+<button class="nav-btn" onclick="goTo(3)">← Atrás</button>
+<button class="nav-btn hidden" id="nav4next" onclick="goTo(5)">Siguiente →</button>
+</div>
+</div>
+<div class="page right" id="page5" style="background-image:url('images/page5.png')">
+<p class="story-text" id="text5"></p>
+<div class="nav"><button class="nav-btn" onclick="goTo(4)">← Atrás</button></div>
+</div>
+</div>
+<script>
+let currentPage=1,bichitosLeft=8,tongueTaps=0,audioCtx=null,page5Played=false;
+function getAudioCtx(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==='suspended')audioCtx.resume();return audioCtx}
+function playPop(){try{const c=getAudioCtx(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type='sine';o.frequency.setValueAtTime(600,c.currentTime);o.frequency.exponentialRampToValueAtTime(200,c.currentTime+.15);g.gain.setValueAtTime(.3,c.currentTime);g.gain.exponentialRampToValueAtTime(.01,c.currentTime+.15);o.start(c.currentTime);o.stop(c.currentTime+.15)}catch(e){}}
+function playSuccess(){try{const c=getAudioCtx();[523,659,784].forEach((f,i)=>{const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type='triangle';o.frequency.setValueAtTime(f,c.currentTime+i*.12);g.gain.setValueAtTime(.25,c.currentTime+i*.12);g.gain.exponentialRampToValueAtTime(.01,c.currentTime+i*.12+.3);o.start(c.currentTime+i*.12);o.stop(c.currentTime+i*.12+.3)})}catch(e){}}
+function playCelebration(){try{const c=getAudioCtx();[523,587,659,698,784,880,988,1047].forEach((f,i)=>{const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type='square';o.frequency.setValueAtTime(f,c.currentTime+i*.15);g.gain.setValueAtTime(.12,c.currentTime+i*.15);g.gain.exponentialRampToValueAtTime(.01,c.currentTime+i*.15+.25);o.start(c.currentTime+i*.15);o.stop(c.currentTime+i*.15+.25)})}catch(e){}}
+function vibrate(ms){try{navigator.vibrate&&navigator.vibrate(ms||30)}catch(e){}}
+function typewriter(el,text,speed){el.textContent='';let i=0;(function t(){if(i<text.length){el.textContent+=text[i];i++;setTimeout(t,speed||40)}})()}
+
+function showBrush(x,y,duration){
+  const brush=document.createElement('div');
+  brush.className='toothbrush brushing';
+  brush.innerHTML='<div class="brush-head"><div class="brush-bristle"></div><div class="brush-bristle"></div><div class="brush-bristle"></div><div class="brush-bristle"></div></div><div class="brush-handle"></div>';
+  brush.style.left=(x-12)+'px';
+  brush.style.top=(y-70)+'px';
+  document.body.appendChild(brush);
+  setTimeout(()=>brush.remove(),duration||850);
+  return brush;
+}
+
+function spawnFoam(cx,cy,count){
+  for(let i=0;i<(count||3);i++){
+    setTimeout(()=>{
+      const foam=document.createElement('div');
+      foam.className='foam-cloud';
+      foam.style.left=(cx-15+Math.random()*30)+'px';
+      foam.style.top=(cy-15+Math.random()*30)+'px';
+      foam.style.width=foam.style.height=(20+Math.random()*20)+'px';
+      document.body.appendChild(foam);
+      setTimeout(()=>foam.remove(),700);
+    },i*150);
+  }
+  for(let i=0;i<8;i++){
+    setTimeout(()=>{
+      const bub=document.createElement('div');
+      bub.className='foam-bubble';
+      bub.style.left=(cx-20+Math.random()*40)+'px';
+      bub.style.top=(cy-10+Math.random()*20)+'px';
+      bub.style.width=bub.style.height=(4+Math.random()*10)+'px';
+      bub.style.setProperty('--drift',(Math.random()*30-15)+'px');
+      document.body.appendChild(bub);
+      setTimeout(()=>bub.remove(),1900);
+    },i*100);
+  }
+}
+
+function goTo(page){
+  if(page<1||page>5)return;
+  document.querySelectorAll('.page').forEach((p,idx)=>{
+    const n=idx+1;
+    p.className='page '+(n===page?'center':n<page?'left':'right');
+  });
+  currentPage=page;onPageEnter(page);
+}
+const pageTexts=['Mati y papá estaban comiendo un almuerzo delicioso. ¡Qué rico!','¡Oh no! Después de comer, unos bichitos aparecieron entre los dientes. ¡Hay que sacarlos!','¡Toca los bichitos verdes para limpiarlos!','¡Ahora la lengua! Toca 3 veces para cepillarla.','¡Mati tiene los dientes limpios! ¡Papá está muy orgulloso! 🎉'];
+let entered=new Set([1]);
+function onPageEnter(p){if(!entered.has(p)){entered.add(p);const el=document.getElementById('text'+p);if(el)typewriter(el,pageTexts[p-1],35)}if(p===5&&!page5Played){page5Played=true;setTimeout(()=>{spawnConfetti();playCelebration()},400)}}
+
+// BICHITOS
+const bichPos=[{top:'25%',left:'8%'},{top:'25%',left:'28%'},{top:'25%',left:'48%'},{top:'25%',left:'68%'},{top:'55%',left:'12%'},{top:'55%',left:'32%'},{top:'55%',left:'52%'},{top:'55%',left:'72%'}];
+function createBichitos(){
+  const area=document.getElementById('bichitosArea');area.innerHTML='';bichitosLeft=8;
+  document.getElementById('nav3next').classList.add('hidden');
+  bichPos.forEach((pos,i)=>{
+    const b=document.createElement('div');b.className='bichito';b.style.top=pos.top;b.style.left=pos.left;
+    b.style.animationDelay=(i*.12)+'s';
+    b.innerHTML='<div class="bichito-body"><div class="bichito-antenna l"></div><div class="bichito-antenna r"></div><div class="bichito-eye l"><div class="bichito-pupil"></div></div><div class="bichito-eye r"><div class="bichito-pupil"></div></div><div class="bichito-mouth"></div></div>';
+    b.addEventListener('pointerdown',e=>tapBichito(e,b));area.appendChild(b);
+  });
+}
+function tapBichito(e,el){
+  if(el.classList.contains('dead')||el.classList.contains('foaming'))return;
+  e.preventDefault();e.stopPropagation();vibrate(50);playPop();
+  const rect=el.getBoundingClientRect();
+  const cx=rect.left+rect.width/2,cy=rect.top+rect.height/2;
+  showBrush(cx,cy,850);
+  el.classList.add('foaming');
+  spawnFoam(cx,cy,3);
+  setTimeout(()=>{
+    for(let i=0;i<10;i++){const p=document.createElement('div');p.className='splat';const angle=(Math.PI*2/10)*i;const dist=20+Math.random()*25;p.style.left=cx+'px';p.style.top=cy+'px';p.style.setProperty('--dx',Math.cos(angle)*dist+'px');p.style.setProperty('--dy',Math.sin(angle)*dist+'px');p.style.background=['#7cfc00','#32cd32','#adff2f','#98fb98','#fff'][i%5];document.body.appendChild(p);setTimeout(()=>p.remove(),700)}
+    el.classList.add('dead');bichitosLeft--;
+    if(bichitosLeft<=0){setTimeout(()=>{playSuccess();const sh=document.createElement('div');sh.className='shimmer-overlay';document.getElementById('page3').appendChild(sh);setTimeout(()=>sh.remove(),1400);const msg=document.createElement('div');msg.className='success-msg';msg.textContent='¡Muy bien! ¡Dientes limpios!';document.getElementById('page3').appendChild(msg);setTimeout(()=>msg.remove(),2500);document.getElementById('nav3next').classList.remove('hidden')},300)}
+  },850);
+}
+
+// TONGUE - AHORA CON CEPILLO
+function setupTongue(){
+  tongueTaps=0;
+  document.querySelectorAll('.progress-dot').forEach(d=>d.classList.remove('filled'));
+  document.getElementById('nav4next').classList.add('hidden');
+  document.getElementById('tongueZone').addEventListener('pointerdown',tapTongue);
+}
+function tapTongue(e){
+  if(tongueTaps>=3)return;
+  e.preventDefault();vibrate(40);playPop();tongueTaps++;
+  const dot=document.getElementById('dot'+(tongueTaps-1));
+  if(dot)dot.classList.add('filled');
+
+  // Cepillo aparece en la zona tocada
+  const rect=e.target.getBoundingClientRect();
+  const cx=rect.left+rect.width/2;
+  const cy=rect.top+rect.height/2;
+  showBrush(cx,cy,800);
+  spawnFoam(cx,cy,2);
+
+  if(tongueTaps>=3){
+    document.getElementById('tongueZone').classList.add('done');
+    setTimeout(()=>{
+      playSuccess();
+      document.getElementById('nav4next').classList.remove('hidden');
+      const msg=document.createElement('div');msg.className='success-msg';
+      msg.textContent='¡Muy bien! ¡Lengua limpia!';
+      document.getElementById('page4').appendChild(msg);
+      setTimeout(()=>msg.remove(),2500);
+    },500);
+  }
+}
+
+// CONFETTI
+function spawnConfetti(){
+  const colors=['#ff6b6b','#feca57','#48dbfb','#ff9ff3','#54a0ff','#5f27cd','#01a3a4','#f368e0','#ff9f43'];
+  const el=document.getElementById('page5');
+  for(let i=0;i<50;i++){const c=document.createElement('div');c.className='confetti';c.style.left=Math.random()*100+'%';c.style.top='-20px';c.style.background=colors[i%colors.length];c.style.setProperty('--dur',(1.5+Math.random()*2)+'s');c.style.animationDelay=(Math.random()*1.5)+'s';c.style.width=(6+Math.random()*8)+'px';c.style.height=(6+Math.random()*8)+'px';c.style.borderRadius=Math.random()>.5?'50%':'2px';el.appendChild(c);setTimeout(()=>c.remove(),5000)}
+  for(let i=0;i<12;i++){const s=document.createElement('div');s.className='sparkle';s.style.left=(10+Math.random()*80)+'%';s.style.top=(10+Math.random()*60)+'%';s.style.animationDelay=(Math.random()*2)+'s';el.appendChild(s);setTimeout(()=>s.remove(),6000)}
+}
+
+function init(){typewriter(document.getElementById('text1'),pageTexts[0],35);createBichitos();setupTongue()}
+document.addEventListener('DOMContentLoaded',init);
+</script>
+</body>
+</html>
