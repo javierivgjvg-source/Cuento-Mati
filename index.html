@@ -58,9 +58,9 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:system-ui,-apple-sy
 .shimmer-overlay{position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.4) 50%,transparent 65%);z-index:12;pointer-events:none;animation:shimmerMove 1.2s ease-in-out forwards}
 @keyframes shimmerMove{0%{left:-100%}100%{left:100%}}
 .tongue-zone{position:absolute;top:20%;left:15%;width:70%;height:55%;border-radius:40%;cursor:pointer;z-index:6;background:rgba(255,255,255,.08);border:3px dashed rgba(255,255,255,.4);transition:all .15s;display:flex;align-items:center;justify-content:center}
-.tongue-zone::after{content:'👅 Toca aquí';color:rgba(255,255,255,.6);font-size:clamp(14px,4vw,18px);font-weight:500}
+.tongue-zone::after{content:'\1F445 Toca aqu\00ED';color:rgba(255,255,255,.6);font-size:clamp(14px,4vw,18px);font-weight:500}
 .tongue-zone:active{background:rgba(255,255,255,.2);transform:scale(.97)}
-.tongue-zone.done::after{content:'✨'}
+.tongue-zone.done::after{content:'\2728'}
 .progress-dots{position:absolute;top:10px;left:50%;transform:translateX(-50%);display:flex;gap:12px;z-index:15}
 .progress-dot{width:28px;height:32px;background:rgba(255,255,255,.2);clip-path:polygon(50% 0%,63% 8%,75% 18%,80% 35%,78% 55%,70% 75%,60% 90%,50% 100%,40% 90%,30% 75%,22% 55%,20% 35%,25% 18%,37% 8%);transition:all .4s}
 .progress-dot.filled{background:#fff;box-shadow:0 0 12px rgba(255,255,255,.9);transform:scale(1.1)}
@@ -70,27 +70,39 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:system-ui,-apple-sy
 @keyframes sparkleAnim{0%,100%{opacity:0;transform:scale(0)}50%{opacity:1;transform:scale(1.3)}}
 .success-msg{position:absolute;top:45%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,.75);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-radius:20px;padding:20px 36px;color:#fff;font-size:clamp(22px,6vw,34px);font-weight:700;z-index:18;animation:popIn .4s ease-out;pointer-events:none}
 @keyframes popIn{0%{transform:translate(-50%,-50%) scale(0)}60%{transform:translate(-50%,-50%) scale(1.1)}100%{transform:translate(-50%,-50%) scale(1)}}
+#cover{position:absolute;top:0;left:0;width:100%;height:100%;background-color:#a8e6cf;background-image:url('images/cover.png');background-size:contain;background-position:center;background-repeat:no-repeat;z-index:30;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:15%;transition:opacity .6s ease,visibility .6s ease;opacity:1;visibility:visible}
+#cover.hidden{opacity:0;visibility:hidden;pointer-events:none}
+.cover-title{position:absolute;top:15%;left:0;right:0;text-align:center;color:#fff;font-size:clamp(28px,8vw,42px);font-weight:800;text-shadow:0 3px 10px rgba(0,0,0,.4);z-index:10}
+.cover-subtitle{position:absolute;top:25%;left:0;right:0;text-align:center;color:rgba(255,255,255,.9);font-size:clamp(16px,4vw,22px);font-weight:500;text-shadow:0 2px 5px rgba(0,0,0,.3);z-index:10}
+.start-btn{padding:18px 50px;border:none;border-radius:40px;background:#fff;color:#2e7d32;font-size:clamp(20px,5vw,28px);font-weight:700;cursor:pointer;box-shadow:0 4px 20px rgba(46,125,50,.4);animation:glow 2s ease-in-out infinite;min-height:60px}
+@keyframes glow{0%,100%{box-shadow:0 4px 20px rgba(46,125,50,.3)}50%{box-shadow:0 4px 30px rgba(46,125,50,.6),0 0 40px rgba(46,125,50,.2)}}
+.start-btn:active{transform:scale(.95)}
 </style>
 </head>
 <body>
+<div id="cover">
+<div class="cover-title">El Cuento de Mati</div>
+<div class="cover-subtitle">\u00a1Vamos a cepillar los dientes!</div>
+<button class="start-btn" id="startBtn">\u25b6 Comenzar</button>
+</div>
 <div class="book" id="book">
 <div class="page center" id="page1" style="background-image:url('images/page1.png')">
 <p class="story-text" id="text1"></p>
-<div class="nav"><button class="nav-btn" onclick="goTo(2)">Siguiente →</button></div>
+<div class="nav"><button class="nav-btn" onclick="goTo(2)">Siguiente \u2192</button></div>
 </div>
 <div class="page right" id="page2" style="background-image:url('images/page2.png')">
 <p class="story-text" id="text2"></p>
 <div class="nav">
-<button class="nav-btn" onclick="goTo(1)">← Atrás</button>
-<button class="nav-btn" onclick="goTo(3)">Siguiente →</button>
+<button class="nav-btn" onclick="goTo(1)">\u2190 Atr\u00e1s</button>
+<button class="nav-btn" onclick="goTo(3)">Siguiente \u2192</button>
 </div>
 </div>
 <div class="page right" id="page3" style="background-image:url('images/page3.png')">
 <p class="story-text top" id="text3"></p>
 <div class="interactive-overlay" id="bichitosArea"></div>
 <div class="nav">
-<button class="nav-btn" onclick="goTo(2)">← Atrás</button>
-<button class="nav-btn hidden" id="nav3next" onclick="goTo(4)">Siguiente →</button>
+<button class="nav-btn" onclick="goTo(2)">\u2190 Atr\u00e1s</button>
+<button class="nav-btn hidden" id="nav3next" onclick="goTo(4)">Siguiente \u2192</button>
 </div>
 </div>
 <div class="page right" id="page4" style="background-image:url('images/page4.png')">
@@ -104,13 +116,16 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:system-ui,-apple-sy
 <div class="tongue-zone" id="tongueZone"></div>
 </div>
 <div class="nav">
-<button class="nav-btn" onclick="goTo(3)">← Atrás</button>
-<button class="nav-btn hidden" id="nav4next" onclick="goTo(5)">Siguiente →</button>
+<button class="nav-btn" onclick="goTo(3)">\u2190 Atr\u00e1s</button>
+<button class="nav-btn hidden" id="nav4next" onclick="goTo(5)">Siguiente \u2192</button>
 </div>
 </div>
 <div class="page right" id="page5" style="background-image:url('images/page5.png')">
 <p class="story-text" id="text5"></p>
-<div class="nav"><button class="nav-btn" onclick="goTo(4)">← Atrás</button></div>
+<div class="nav">
+<button class="nav-btn" onclick="goTo(4)">\u2190 Atr\u00e1s</button>
+<button class="nav-btn" onclick="replayGame()">\ud83d\udd04 Jugar de nuevo</button>
+</div>
 </div>
 </div>
 <script>
@@ -121,125 +136,21 @@ function playSuccess(){try{const c=getAudioCtx();[523,659,784].forEach((f,i)=>{c
 function playCelebration(){try{const c=getAudioCtx();[523,587,659,698,784,880,988,1047].forEach((f,i)=>{const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type='square';o.frequency.setValueAtTime(f,c.currentTime+i*.15);g.gain.setValueAtTime(.12,c.currentTime+i*.15);g.gain.exponentialRampToValueAtTime(.01,c.currentTime+i*.15+.25);o.start(c.currentTime+i*.15);o.stop(c.currentTime+i*.15+.25)})}catch(e){}}
 function vibrate(ms){try{navigator.vibrate&&navigator.vibrate(ms||30)}catch(e){}}
 function typewriter(el,text,speed){el.textContent='';let i=0;(function t(){if(i<text.length){el.textContent+=text[i];i++;setTimeout(t,speed||40)}})()}
-
-function showBrush(x,y,duration){
-  const brush=document.createElement('div');
-  brush.className='toothbrush brushing';
-  brush.innerHTML='<div class="brush-head"><div class="brush-bristle"></div><div class="brush-bristle"></div><div class="brush-bristle"></div><div class="brush-bristle"></div></div><div class="brush-handle"></div>';
-  brush.style.left=(x-12)+'px';
-  brush.style.top=(y-70)+'px';
-  document.body.appendChild(brush);
-  setTimeout(()=>brush.remove(),duration||850);
-  return brush;
-}
-
-function spawnFoam(cx,cy,count){
-  for(let i=0;i<(count||3);i++){
-    setTimeout(()=>{
-      const foam=document.createElement('div');
-      foam.className='foam-cloud';
-      foam.style.left=(cx-15+Math.random()*30)+'px';
-      foam.style.top=(cy-15+Math.random()*30)+'px';
-      foam.style.width=foam.style.height=(20+Math.random()*20)+'px';
-      document.body.appendChild(foam);
-      setTimeout(()=>foam.remove(),700);
-    },i*150);
-  }
-  for(let i=0;i<8;i++){
-    setTimeout(()=>{
-      const bub=document.createElement('div');
-      bub.className='foam-bubble';
-      bub.style.left=(cx-20+Math.random()*40)+'px';
-      bub.style.top=(cy-10+Math.random()*20)+'px';
-      bub.style.width=bub.style.height=(4+Math.random()*10)+'px';
-      bub.style.setProperty('--drift',(Math.random()*30-15)+'px');
-      document.body.appendChild(bub);
-      setTimeout(()=>bub.remove(),1900);
-    },i*100);
-  }
-}
-
-function goTo(page){
-  if(page<1||page>5)return;
-  document.querySelectorAll('.page').forEach((p,idx)=>{
-    const n=idx+1;
-    p.className='page '+(n===page?'center':n<page?'left':'right');
-  });
-  currentPage=page;onPageEnter(page);
-}
-const pageTexts=['Mati y papá estaban comiendo un almuerzo delicioso. ¡Qué rico!','¡Oh no! Después de comer, unos bichitos aparecieron entre los dientes. ¡Hay que sacarlos!','¡Toca los bichitos verdes para limpiarlos!','¡Ahora la lengua! Toca 3 veces para cepillarla.','¡Mati tiene los dientes limpios! ¡Papá está muy orgulloso! 🎉'];
+function showBrush(x,y,duration){const brush=document.createElement('div');brush.className='toothbrush brushing';brush.innerHTML='<div class="brush-head"><div class="brush-bristle"></div><div class="brush-bristle"></div><div class="brush-bristle"></div><div class="brush-bristle"></div></div><div class="brush-handle"></div>';brush.style.left=(x-12)+'px';brush.style.top=(y-70)+'px';document.body.appendChild(brush);setTimeout(()=>brush.remove(),duration||850);return brush}
+function spawnFoam(cx,cy,count){for(let i=0;i<(count||3);i++){setTimeout(()=>{const foam=document.createElement('div');foam.className='foam-cloud';foam.style.left=(cx-15+Math.random()*30)+'px';foam.style.top=(cy-15+Math.random()*30)+'px';foam.style.width=foam.style.height=(20+Math.random()*20)+'px';document.body.appendChild(foam);setTimeout(()=>foam.remove(),700)},i*150)}for(let i=0;i<8;i++){setTimeout(()=>{const bub=document.createElement('div');bub.className='foam-bubble';bub.style.left=(cx-20+Math.random()*40)+'px';bub.style.top=(cy-10+Math.random()*20)+'px';bub.style.width=bub.style.height=(4+Math.random()*10)+'px';bub.style.setProperty('--drift',(Math.random()*30-15)+'px');document.body.appendChild(bub);setTimeout(()=>bub.remove(),1900)},i*100)}}
+function goTo(page){if(page<1||page>5)return;document.querySelectorAll('.page').forEach((p,idx)=>{const n=idx+1;p.className='page '+(n===page?'center':n<page?'left':'right')});currentPage=page;onPageEnter(page)}
+const pageTexts=['Mati y pap\u00e1 estaban comiendo un almuerzo delicioso. \u00a1Qu\u00e9 rico!','\u00a1Oh no! Despu\u00e9s de comer, unos bichitos aparecieron entre los dientes. \u00a1Hay que sacarlos!','\u00a1Toca los bichitos verdes para limpiarlos!','\u00a1Ahora la lengua! Toca 3 veces para cepillarla.','\u00a1Mati tiene los dientes limpios! \u00a1Pap\u00e1 est\u00e1 muy orgulloso! \ud83c\udf89'];
 let entered=new Set([1]);
 function onPageEnter(p){if(!entered.has(p)){entered.add(p);const el=document.getElementById('text'+p);if(el)typewriter(el,pageTexts[p-1],35)}if(p===5&&!page5Played){page5Played=true;setTimeout(()=>{spawnConfetti();playCelebration()},400)}}
-
-// BICHITOS
 const bichPos=[{top:'25%',left:'8%'},{top:'25%',left:'28%'},{top:'25%',left:'48%'},{top:'25%',left:'68%'},{top:'55%',left:'12%'},{top:'55%',left:'32%'},{top:'55%',left:'52%'},{top:'55%',left:'72%'}];
-function createBichitos(){
-  const area=document.getElementById('bichitosArea');area.innerHTML='';bichitosLeft=8;
-  document.getElementById('nav3next').classList.add('hidden');
-  bichPos.forEach((pos,i)=>{
-    const b=document.createElement('div');b.className='bichito';b.style.top=pos.top;b.style.left=pos.left;
-    b.style.animationDelay=(i*.12)+'s';
-    b.innerHTML='<div class="bichito-body"><div class="bichito-antenna l"></div><div class="bichito-antenna r"></div><div class="bichito-eye l"><div class="bichito-pupil"></div></div><div class="bichito-eye r"><div class="bichito-pupil"></div></div><div class="bichito-mouth"></div></div>';
-    b.addEventListener('pointerdown',e=>tapBichito(e,b));area.appendChild(b);
-  });
-}
-function tapBichito(e,el){
-  if(el.classList.contains('dead')||el.classList.contains('foaming'))return;
-  e.preventDefault();e.stopPropagation();vibrate(50);playPop();
-  const rect=el.getBoundingClientRect();
-  const cx=rect.left+rect.width/2,cy=rect.top+rect.height/2;
-  showBrush(cx,cy,850);
-  el.classList.add('foaming');
-  spawnFoam(cx,cy,3);
-  setTimeout(()=>{
-    for(let i=0;i<10;i++){const p=document.createElement('div');p.className='splat';const angle=(Math.PI*2/10)*i;const dist=20+Math.random()*25;p.style.left=cx+'px';p.style.top=cy+'px';p.style.setProperty('--dx',Math.cos(angle)*dist+'px');p.style.setProperty('--dy',Math.sin(angle)*dist+'px');p.style.background=['#7cfc00','#32cd32','#adff2f','#98fb98','#fff'][i%5];document.body.appendChild(p);setTimeout(()=>p.remove(),700)}
-    el.classList.add('dead');bichitosLeft--;
-    if(bichitosLeft<=0){setTimeout(()=>{playSuccess();const sh=document.createElement('div');sh.className='shimmer-overlay';document.getElementById('page3').appendChild(sh);setTimeout(()=>sh.remove(),1400);const msg=document.createElement('div');msg.className='success-msg';msg.textContent='¡Muy bien! ¡Dientes limpios!';document.getElementById('page3').appendChild(msg);setTimeout(()=>msg.remove(),2500);document.getElementById('nav3next').classList.remove('hidden')},300)}
-  },850);
-}
-
-// TONGUE - AHORA CON CEPILLO
-function setupTongue(){
-  tongueTaps=0;
-  document.querySelectorAll('.progress-dot').forEach(d=>d.classList.remove('filled'));
-  document.getElementById('nav4next').classList.add('hidden');
-  document.getElementById('tongueZone').addEventListener('pointerdown',tapTongue);
-}
-function tapTongue(e){
-  if(tongueTaps>=3)return;
-  e.preventDefault();vibrate(40);playPop();tongueTaps++;
-  const dot=document.getElementById('dot'+(tongueTaps-1));
-  if(dot)dot.classList.add('filled');
-
-  // Cepillo aparece en la zona tocada
-  const rect=e.target.getBoundingClientRect();
-  const cx=rect.left+rect.width/2;
-  const cy=rect.top+rect.height/2;
-  showBrush(cx,cy,800);
-  spawnFoam(cx,cy,2);
-
-  if(tongueTaps>=3){
-    document.getElementById('tongueZone').classList.add('done');
-    setTimeout(()=>{
-      playSuccess();
-      document.getElementById('nav4next').classList.remove('hidden');
-      const msg=document.createElement('div');msg.className='success-msg';
-      msg.textContent='¡Muy bien! ¡Lengua limpia!';
-      document.getElementById('page4').appendChild(msg);
-      setTimeout(()=>msg.remove(),2500);
-    },500);
-  }
-}
-
-// CONFETTI
-function spawnConfetti(){
-  const colors=['#ff6b6b','#feca57','#48dbfb','#ff9ff3','#54a0ff','#5f27cd','#01a3a4','#f368e0','#ff9f43'];
-  const el=document.getElementById('page5');
-  for(let i=0;i<50;i++){const c=document.createElement('div');c.className='confetti';c.style.left=Math.random()*100+'%';c.style.top='-20px';c.style.background=colors[i%colors.length];c.style.setProperty('--dur',(1.5+Math.random()*2)+'s');c.style.animationDelay=(Math.random()*1.5)+'s';c.style.width=(6+Math.random()*8)+'px';c.style.height=(6+Math.random()*8)+'px';c.style.borderRadius=Math.random()>.5?'50%':'2px';el.appendChild(c);setTimeout(()=>c.remove(),5000)}
-  for(let i=0;i<12;i++){const s=document.createElement('div');s.className='sparkle';s.style.left=(10+Math.random()*80)+'%';s.style.top=(10+Math.random()*60)+'%';s.style.animationDelay=(Math.random()*2)+'s';el.appendChild(s);setTimeout(()=>s.remove(),6000)}
-}
-
-function init(){typewriter(document.getElementById('text1'),pageTexts[0],35);createBichitos();setupTongue()}
+function createBichitos(){const area=document.getElementById('bichitosArea');area.innerHTML='';bichitosLeft=8;document.getElementById('nav3next').classList.add('hidden');bichPos.forEach((pos,i)=>{const b=document.createElement('div');b.className='bichito';b.style.top=pos.top;b.style.left=pos.left;b.style.animationDelay=(i*.12)+'s';b.innerHTML='<div class="bichito-body"><div class="bichito-antenna l"></div><div class="bichito-antenna r"></div><div class="bichito-eye l"><div class="bichito-pupil"></div></div><div class="bichito-eye r"><div class="bichito-pupil"></div></div><div class="bichito-mouth"></div></div>';b.addEventListener('pointerdown',e=>tapBichito(e,b));area.appendChild(b)})}
+function tapBichito(e,el){if(el.classList.contains('dead')||el.classList.contains('foaming'))return;e.preventDefault();e.stopPropagation();vibrate(50);playPop();const rect=el.getBoundingClientRect();const cx=rect.left+rect.width/2,cy=rect.top+rect.height/2;showBrush(cx,cy,850);el.classList.add('foaming');spawnFoam(cx,cy,3);setTimeout(()=>{for(let i=0;i<10;i++){const p=document.createElement('div');p.className='splat';const angle=(Math.PI*2/10)*i;const dist=20+Math.random()*25;p.style.left=cx+'px';p.style.top=cy+'px';p.style.setProperty('--dx',Math.cos(angle)*dist+'px');p.style.setProperty('--dy',Math.sin(angle)*dist+'px');p.style.background=['#7cfc00','#32cd32','#adff2f','#98fb98','#fff'][i%5];document.body.appendChild(p);setTimeout(()=>p.remove(),700)}el.classList.add('dead');bichitosLeft--;if(bichitosLeft<=0){setTimeout(()=>{playSuccess();const sh=document.createElement('div');sh.className='shimmer-overlay';document.getElementById('page3').appendChild(sh);setTimeout(()=>sh.remove(),1400);const msg=document.createElement('div');msg.className='success-msg';msg.textContent='\u00a1Muy bien! \u00a1Dientes limpios!';document.getElementById('page3').appendChild(msg);setTimeout(()=>msg.remove(),2500);document.getElementById('nav3next').classList.remove('hidden')},300)}},850)}
+function setupTongue(){tongueTaps=0;document.querySelectorAll('.progress-dot').forEach(d=>d.classList.remove('filled'));document.getElementById('nav4next').classList.add('hidden');const tz=document.getElementById('tongueZone');tz.classList.remove('done');const newTz=tz.cloneNode(true);tz.parentNode.replaceChild(newTz,tz);newTz.addEventListener('pointerdown',tapTongue)}
+function tapTongue(e){if(tongueTaps>=3)return;e.preventDefault();vibrate(40);playPop();tongueTaps++;const dot=document.getElementById('dot'+(tongueTaps-1));if(dot)dot.classList.add('filled');const rect=e.target.getBoundingClientRect();const cx=rect.left+rect.width/2;const cy=rect.top+rect.height/2;showBrush(cx,cy,800);spawnFoam(cx,cy,2);if(tongueTaps>=3){document.getElementById('tongueZone').classList.add('done');setTimeout(()=>{playSuccess();document.getElementById('nav4next').classList.remove('hidden');const msg=document.createElement('div');msg.className='success-msg';msg.textContent='\u00a1Muy bien! \u00a1Lengua limpia!';document.getElementById('page4').appendChild(msg);setTimeout(()=>msg.remove(),2500)},500)}}
+function spawnConfetti(){const colors=['#ff6b6b','#feca57','#48dbfb','#ff9ff3','#54a0ff','#5f27cd','#01a3a4','#f368e0','#ff9f43'];const el=document.getElementById('page5');for(let i=0;i<50;i++){const c=document.createElement('div');c.className='confetti';c.style.left=Math.random()*100+'%';c.style.top='-20px';c.style.background=colors[i%colors.length];c.style.setProperty('--dur',(1.5+Math.random()*2)+'s');c.style.animationDelay=(Math.random()*1.5)+'s';c.style.width=(6+Math.random()*8)+'px';c.style.height=(6+Math.random()*8)+'px';c.style.borderRadius=Math.random()>.5?'50%':'2px';el.appendChild(c);setTimeout(()=>c.remove(),5000)}for(let i=0;i<12;i++){const s=document.createElement('div');s.className='sparkle';s.style.left=(10+Math.random()*80)+'%';s.style.top=(10+Math.random()*60)+'%';s.style.animationDelay=(Math.random()*2)+'s';el.appendChild(s);setTimeout(()=>s.remove(),6000)}}
+function startGame(){getAudioCtx();document.getElementById('cover').classList.add('hidden')}
+function replayGame(){bichitosLeft=8;tongueTaps=0;page5Played=false;entered=new Set([1]);document.querySelectorAll('#page5 .confetti, #page5 .sparkle').forEach(el=>el.remove());document.querySelectorAll('.page').forEach((p,idx)=>{const n=idx+1;p.className='page '+(n===1?'center':'right')});for(let i=1;i<=5;i++){const t=document.getElementById('text'+i);if(t)t.textContent=''}createBichitos();setupTongue();document.getElementById('cover').classList.remove('hidden');currentPage=1}
+function init(){typewriter(document.getElementById('text1'),pageTexts[0],35);createBichitos();setupTongue();document.getElementById('startBtn').addEventListener('pointerdown',startGame)}
 document.addEventListener('DOMContentLoaded',init);
 </script>
 </body>
