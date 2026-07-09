@@ -3,175 +3,175 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Cuento de Mati - Cepillarse los Dientes</title>
+<title>Cuento de Mati v3</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:100%;height:100%;overflow:hidden;font-family:system-ui,-apple-system,sans-serif;touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-select:none}
-.book{position:relative;width:100%;height:100%;overflow:hidden;perspective:1200px}
-.page{position:absolute;top:0;left:0;width:100%;height:100%;background-size:contain;background-position:center;background-repeat:no-repeat;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;transition:transform .7s cubic-bezier(.4,0,.2,1),opacity .7s ease;will-change:transform,opacity;transform-style:preserve-3d}
-.page.left{transform:translateX(-100%) rotateY(15deg) scale(.9);opacity:0}
-.page.center{transform:translateX(0) rotateY(0deg) scale(1);opacity:1}
-.page.right{transform:translateX(100%) rotateY(-15deg) scale(.9);opacity:0}
-#page1{background-color:#87ceeb}#page2{background-color:#1a0a0a}#page3{background-color:#1a0a0a}#page4{background-color:#2d1a1a}#page5{background-color:#4a2c6e}
-.story-text{position:absolute;bottom:70px;left:4%;right:4%;background:rgba(0,0,0,.6);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-radius:16px;padding:14px 18px;color:#fff;font-size:clamp(14px,4vw,20px);line-height:1.5;text-align:center;text-shadow:0 1px 3px rgba(0,0,0,.7);z-index:10}
-.story-text.top{bottom:auto;top:10px}
-.story-text .char{display:inline-block;opacity:0;animation:charBounce .4s ease forwards}
-@keyframes charBounce{0%{opacity:0;transform:translateY(15px) scale(.5)}60%{opacity:1;transform:translateY(-4px) scale(1.1)}100%{opacity:1;transform:translateY(0) scale(1)}}
-.nav{position:absolute;bottom:12px;left:0;right:0;display:flex;justify-content:center;gap:14px;z-index:20;padding:0 14px}
-.nav-btn{padding:11px 24px;border:none;border-radius:30px;background:rgba(255,255,255,.25);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#fff;font-size:clamp(13px,3.5vw,17px);font-weight:600;cursor:pointer;transition:background .2s,transform .1s;min-width:44px;min-height:44px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
-.nav-btn::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.35) 50%,transparent 65%);animation:btnShimmer 3s ease-in-out infinite}
-@keyframes btnShimmer{0%,100%{left:-100%}50%{left:100%}}
-.nav-btn:active{transform:scale(.93);background:rgba(255,255,255,.4)}.nav-btn.hidden{display:none}
-.interactive-overlay{position:absolute;top:0;left:0;width:100%;height:100%;z-index:5;pointer-events:none}.interactive-overlay>*{pointer-events:auto}
-.bichito{position:absolute;width:50px;height:44px;cursor:pointer;z-index:6;transition:top 1.5s ease-in-out,left 1.5s ease-in-out}
-.bichito-body{width:100%;height:100%;border-radius:50% 50% 45% 45%;background:radial-gradient(ellipse at 40% 35%,#8fef6f,#3ea832);position:relative;box-shadow:0 3px 10px rgba(0,255,0,.4),0 2px 6px rgba(0,0,0,.3);animation:wobble .8s ease-in-out infinite}
+.screen{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .4s ease,visibility .4s ease;opacity:0;visibility:hidden;pointer-events:none;overflow:hidden}
+.screen.active{opacity:1;visibility:visible;pointer-events:auto}
+#cover{background-color:#a8e6cf;background-image:url('images/cover.png');background-size:contain;background-position:center;background-repeat:no-repeat;justify-content:flex-end;padding-bottom:15%}
+.cover-title{position:absolute;top:12%;left:0;right:0;text-align:center;color:#fff;font-size:clamp(28px,8vw,42px);font-weight:800;text-shadow:0 3px 10px rgba(0,0,0,.4);animation:floatTitle 3s ease-in-out infinite;cursor:pointer}
+@keyframes floatTitle{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.cover-subtitle{position:absolute;top:23%;left:0;right:0;text-align:center;color:rgba(255,255,255,.9);font-size:clamp(16px,4vw,22px);font-weight:500;text-shadow:0 2px 5px rgba(0,0,0,.3)}
+.start-btn{padding:18px 50px;border:none;border-radius:40px;background:#fff;color:#2e7d32;font-size:clamp(20px,5vw,28px);font-weight:700;cursor:pointer;box-shadow:0 4px 20px rgba(46,125,50,.4);animation:glow 2s ease-in-out infinite;min-height:60px}
+@keyframes glow{0%,100%{box-shadow:0 4px 20px rgba(46,125,50,.3)}50%{box-shadow:0 4px 30px rgba(46,125,50,.6),0 0 40px rgba(46,125,50,.2)}}
+.start-btn:active{transform:scale(.95)}
+#menu{padding:10px}
+.menu-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:350px;width:90%}
+.menu-btn{width:100%;aspect-ratio:1;border:none;border-radius:20px;font-size:50px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 15px rgba(0,0,0,.2);transition:transform .15s;min-width:80px;min-height:80px;animation:menuPop .4s cubic-bezier(.175,.885,.32,1.275) forwards;opacity:0}
+.menu-btn:active{transform:scale(.9)}
+@keyframes menuPop{0%{transform:scale(0);opacity:0}100%{transform:scale(1);opacity:1}}
+.menu-mascot{position:absolute;top:8%;font-size:50px;animation:bounce 2s ease-in-out infinite}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.home-btn{position:absolute;bottom:15px;right:15px;width:60px;height:60px;border:none;border-radius:50%;background:rgba(255,255,255,.9);font-size:28px;cursor:pointer;box-shadow:0 3px 12px rgba(0,0,0,.2);display:flex;align-items:center;justify-content:center;z-index:50}
+.home-btn:active{transform:scale(.9)}.bichito{position:absolute;cursor:pointer;z-index:6;border-radius:50%;display:flex;align-items:center;justify-content:center;animation:wobble var(--speed) ease-in-out infinite;box-shadow:0 3px 10px rgba(0,0,0,.3);transition:top 1.5s ease-in-out,left 1.5s ease-in-out}
 @keyframes wobble{0%,100%{transform:rotate(-3deg) scale(1)}50%{transform:rotate(3deg) scale(1.05)}}
-.bichito-eye{position:absolute;top:22%;width:14px;height:15px;border-radius:50%;background:#fff;box-shadow:inset 0 1px 2px rgba(0,0,0,.1);transition:width .2s,height .2s}.bichito-eye.l{left:18%}.bichito-eye.r{right:18%}
-.bichito-pupil{position:absolute;bottom:3px;left:50%;transform:translateX(-50%);width:7px;height:7px;border-radius:50%;background:#111;transition:transform .15s ease}
-.bichito-mouth{position:absolute;bottom:16%;left:50%;transform:translateX(-50%);width:16px;height:8px;border-bottom:2.5px solid #2d6b1f;border-radius:0 0 50% 50%;transition:all .2s}
-.bichito-antenna{position:absolute;top:-10px;width:2.5px;height:12px;background:#3ea832}.bichito-antenna.l{left:28%;transform:rotate(-15deg)}.bichito-antenna.r{right:28%;transform:rotate(15deg)}
-.bichito-antenna::after{content:'';position:absolute;top:-5px;left:-3px;width:8px;height:8px;border-radius:50%;background:#5dd44a}
-.bichito-legs{position:absolute;bottom:-6px;left:50%;transform:translateX(-50%);display:flex;gap:4px}
-.bichito-leg{width:3px;height:8px;background:inherit;border-radius:0 0 2px 2px;animation:legWiggle .4s ease-in-out infinite;transform-origin:top}
-.bichito-leg:nth-child(1){animation-delay:0s}
-.bichito-leg:nth-child(2){animation-delay:.13s}
-.bichito-leg:nth-child(3){animation-delay:.26s}
-@keyframes legWiggle{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(8deg)}}
-.bichito.scared .bichito-eye{width:17px;height:18px}
-.bichito.scared .bichito-mouth{width:10px;height:10px;border-radius:50%;border:2.5px solid #2d6b1f;border-bottom:2.5px solid #2d6b1f}
-.bichito.foaming{opacity:.6;transform:scale(.7);transition:all .5s ease}.bichito.dead{opacity:0;transform:scale(0) translateY(-20px);pointer-events:none;transition:all .5s ease}
-.toothbrush{position:fixed;pointer-events:none;z-index:99;display:flex;flex-direction:column;align-items:center}
-.brush-handle{width:14px;height:55px;background:linear-gradient(to right,#4db8e8,#2196F3,#4db8e8);border-radius:6px}
-.brush-head{width:24px;height:32px;background:#fff;border-radius:4px 4px 8px 8px;margin-top:-2px;box-shadow:0 1px 3px rgba(0,0,0,.2);position:relative}
-.brush-bristle{position:absolute;width:3px;height:10px;background:#a8d8f0;border-radius:0 0 2px 2px}
-.brush-bristle:nth-child(1){left:3px;top:18px}.brush-bristle:nth-child(2){left:8px;top:18px}.brush-bristle:nth-child(3){left:13px;top:18px}.brush-bristle:nth-child(4){left:18px;top:18px}
-.toothbrush.brushing{animation:brushMove .8s ease-in-out}
-@keyframes brushMove{0%{transform:translateX(-18px) rotate(-7deg)}15%{transform:translateX(18px) rotate(7deg)}30%{transform:translateX(-14px) rotate(-5deg)}45%{transform:translateX(14px) rotate(5deg)}60%{transform:translateX(-10px) rotate(-3deg)}75%{transform:translateX(10px) rotate(3deg)}90%{transform:translateX(-5px) rotate(-1deg)}100%{transform:translateX(0) rotate(0)}}
-.foam-cloud{position:fixed;pointer-events:none;z-index:97;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.9),rgba(200,230,255,.6));animation:foamGrow .6s ease-out forwards}
-@keyframes foamGrow{0%{opacity:0;transform:scale(0)}50%{opacity:1;transform:scale(1.2)}100%{opacity:0;transform:scale(1.5) translateY(-15px)}}
-.foam-bubble{position:fixed;border-radius:50%;background:rgba(255,255,255,.7);pointer-events:none;animation:bubbleFloat 1.8s ease-out forwards;z-index:98;border:1px solid rgba(255,255,255,.3)}
-@keyframes bubbleFloat{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-60px) translateX(var(--drift)) scale(.2)}}
-.splat{position:fixed;width:8px;height:8px;border-radius:50%;pointer-events:none;animation:splatAnim .6s ease-out forwards;z-index:100}
-@keyframes splatAnim{0%{opacity:1;transform:translate(0,0) scale(1)}100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(0)}}
-.shimmer-overlay{position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.4) 50%,transparent 65%);z-index:12;pointer-events:none;animation:shimmerMove 1.2s ease-in-out forwards}
-@keyframes shimmerMove{0%{left:-100%}100%{left:100%}}
-.tongue-zone{position:absolute;top:20%;left:15%;width:70%;height:55%;border-radius:40%;cursor:pointer;z-index:6;background:rgba(255,255,255,.08);border:3px dashed rgba(255,255,255,.4);transition:all .15s;display:flex;align-items:center;justify-content:center}
-.tongue-zone::after{content:'\1F445 Toca aqu\00ED';color:rgba(255,255,255,.6);font-size:clamp(14px,4vw,18px);font-weight:500}
-.tongue-zone:active{background:rgba(255,255,255,.2);transform:scale(.97)}.tongue-zone.done::after{content:'\2728'}
-.progress-dots{position:absolute;top:10px;left:50%;transform:translateX(-50%);display:flex;gap:12px;z-index:15}
-.progress-dot{width:28px;height:32px;background:rgba(255,255,255,.2);clip-path:polygon(50% 0%,63% 8%,75% 18%,80% 35%,78% 55%,70% 75%,60% 90%,50% 100%,40% 90%,30% 75%,22% 55%,20% 35%,25% 18%,37% 8%);transition:all .4s}
-.progress-dot.filled{background:#fff;box-shadow:0 0 12px rgba(255,255,255,.9);transform:scale(1.1);animation:dotPulse .5s ease}
-@keyframes dotPulse{0%{transform:scale(1)}50%{transform:scale(1.3)}100%{transform:scale(1.1)}}
+.bichito.scared{animation:wobbleScared .3s ease-in-out infinite}
+@keyframes wobbleScared{0%,100%{transform:rotate(-6deg) scale(.9)}50%{transform:rotate(6deg) scale(.95)}}
+.bichito.foaming{opacity:.6;transform:scale(.7);transition:all .5s ease}
+.bichito.dead{opacity:0;transform:scale(0) translateY(-20px);pointer-events:none;transition:all .5s ease}
+.bichito-face{font-size:inherit;line-height:1}
+.bichito-boss{border:3px solid gold;box-shadow:0 0 15px rgba(255,215,0,.6)}
+#game-bichitos{background-color:#1a0a0a;background-image:url('images/page3.png');background-size:contain;background-position:center;background-repeat:no-repeat}
+#game-lengua{background-color:#2d1a1a;background-image:url('images/page4.png');background-size:contain;background-position:center;background-repeat:no-repeat}
+#game-vaso{background:linear-gradient(135deg,#e3f2fd,#bbdefb)}
+#game-burbujas{background:linear-gradient(135deg,#f3e5f5,#e1bee7)}
+#game-cepillo{background:linear-gradient(135deg,#e8f5e9,#c8e6c9)}
+.tongue-zone{position:absolute;top:20%;left:15%;width:70%;height:55%;border-radius:40%;cursor:pointer;z-index:6;background:rgba(255,255,255,.08);border:3px dashed rgba(255,255,255,.4);transition:all .15s;display:flex;align-items:center;justify-content:center;font-size:60px}
+.tongue-zone:active{background:rgba(255,255,255,.2);transform:scale(.97)}
+.progress-bar{position:absolute;top:12px;left:10%;width:80%;height:20px;background:rgba(255,255,255,.3);border-radius:10px;overflow:hidden;z-index:10}
+.progress-fill{height:100%;background:linear-gradient(90deg,#4caf50,#8bc34a);border-radius:10px;transition:width .3s ease;width:0}
+.vaso-container{position:relative;width:120px;height:200px;margin-top:40px}
+.vaso{position:absolute;bottom:0;width:100%;height:100%;border:4px solid rgba(255,255,255,.8);border-top:none;border-radius:0 0 20px 20px;overflow:hidden;background:rgba(255,255,255,.1)}
+.vaso-agua{position:absolute;bottom:0;width:100%;background:linear-gradient(180deg,#4fc3f7,#0288d1);transition:height .3s ease;border-radius:0 0 16px 16px}
+.grifo{position:absolute;top:5%;left:50%;transform:translateX(-50%);width:80px;height:80px;background:#78909c;border-radius:10px 10px 0 0;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:40px;border:3px solid #546e7a;z-index:10}
+.grifo:active{transform:translateX(-50%) scale(.9)}
+.gota{position:absolute;width:8px;height:12px;background:#4fc3f7;border-radius:50%;animation:gotaCaer .6s linear forwards;z-index:5}
+@keyframes gotaCaer{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(120px)}}
+.burbuja{position:absolute;border-radius:50%;background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.8),rgba(200,200,255,.3));border:1px solid rgba(255,255,255,.4);animation:flotar var(--dur) ease-out forwards;z-index:5}
+@keyframes flotar{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(var(--floatY)) scale(.5)}}
+.pasta-tubo{position:absolute;bottom:15%;left:50%;transform:translateX(-50%);width:100px;height:140px;background:linear-gradient(135deg,#7c4dff,#536dfe);border-radius:20px 20px 10px 10px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:50px;border:3px solid #5c6bc0;z-index:10}
+.pasta-tubo:active{transform:translateX(-50%) scale(.95)}
+.cepillo-opcion{width:80px;height:140px;border-radius:15px;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:40px;transition:transform .2s;box-shadow:0 4px 15px rgba(0,0,0,.2)}
+.cepillo-opcion:active,.cepillo-opcion.selected{transform:scale(1.2);box-shadow:0 6px 25px rgba(0,0,0,.3)}
+.boca{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:180px;height:120px;background:#ff8a80;border-radius:50%;border:4px solid #d32f2f;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:50px}
+.boca:active{transform:translate(-50%,-50%) scale(.95)}
+.espuma-cepillo{position:absolute;width:20px;height:20px;background:rgba(255,255,255,.8);border-radius:50%;animation:espumaFloat 1s ease-out forwards;pointer-events:none}
+@keyframes espumaFloat{0%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(2) translateY(-30px)}}
 .confetti{position:absolute;pointer-events:none;animation:confettiFall var(--dur) linear forwards;z-index:15;opacity:.9}
 @keyframes confettiFall{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(1080deg);opacity:0}}
 .sparkle{position:absolute;width:8px;height:8px;background:#fff;border-radius:50%;pointer-events:none;animation:sparkleAnim 2s ease-in-out infinite;z-index:14}
 @keyframes sparkleAnim{0%,100%{opacity:0;transform:scale(0)}50%{opacity:1;transform:scale(1.3)}}
 .star-burst{position:absolute;pointer-events:none;font-size:24px;animation:starExplode 1.2s ease-out forwards;z-index:16}
 @keyframes starExplode{0%{opacity:1;transform:translate(0,0) scale(0) rotate(0deg)}50%{opacity:1;transform:translate(var(--sx),var(--sy)) scale(1.3) rotate(180deg)}100%{opacity:0;transform:translate(var(--ex),var(--ey)) scale(0) rotate(360deg)}}
-.page-star{position:absolute;pointer-events:none;font-size:20px;animation:pageStarFloat 2s ease-out forwards;z-index:13}
-@keyframes pageStarFloat{0%{opacity:1;transform:translateY(0) scale(0)}30%{opacity:1;transform:translateY(-20px) scale(1.2)}100%{opacity:0;transform:translateY(-80px) scale(.5)}}
-.success-msg{position:absolute;top:45%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,.75);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-radius:20px;padding:20px 36px;color:#fff;font-size:clamp(22px,6vw,34px);font-weight:700;z-index:18;animation:bounceIn .6s cubic-bezier(.175,.885,.32,1.275);pointer-events:none}
+.success-msg{position:absolute;top:45%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,.75);backdrop-filter:blur(8px);border-radius:20px;padding:20px 36px;color:#fff;font-size:clamp(22px,6vw,34px);font-weight:700;z-index:18;animation:bounceIn .6s cubic-bezier(.175,.885,.32,1.275);pointer-events:none}
 @keyframes bounceIn{0%{transform:translate(-50%,-50%) scale(0);opacity:0}50%{transform:translate(-50%,-50%) scale(1.15)}70%{transform:translate(-50%,-50%) scale(.95)}100%{transform:translate(-50%,-50%) scale(1);opacity:1}}
-#cover{position:absolute;top:0;left:0;width:100%;height:100%;background-color:#a8e6cf;background-image:url('images/cover.png');background-size:contain;background-position:center;background-repeat:no-repeat;z-index:30;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:15%;transition:opacity .6s ease,visibility .6s ease,transform .6s ease;opacity:1;visibility:visible;transform:scale(1)}
-#cover.hidden{opacity:0;visibility:hidden;pointer-events:none;transform:scale(1.1)}
-.cover-title{position:absolute;top:15%;left:0;right:0;text-align:center;color:#fff;font-size:clamp(28px,8vw,42px);font-weight:800;text-shadow:0 3px 10px rgba(0,0,0,.4);z-index:10;animation:floatTitle 3s ease-in-out infinite}
-@keyframes floatTitle{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-.cover-subtitle{position:absolute;top:25%;left:0;right:0;text-align:center;color:rgba(255,255,255,.9);font-size:clamp(16px,4vw,22px);font-weight:500;text-shadow:0 2px 5px rgba(0,0,0,.3);z-index:10}
-.start-btn{padding:18px 50px;border:none;border-radius:40px;background:#fff;color:#2e7d32;font-size:clamp(20px,5vw,28px);font-weight:700;cursor:pointer;box-shadow:0 4px 20px rgba(46,125,50,.4);animation:glow 2s ease-in-out infinite;min-height:60px}
-@keyframes glow{0%,100%{box-shadow:0 4px 20px rgba(46,125,50,.3)}50%{box-shadow:0 4px 30px rgba(46,125,50,.6),0 0 40px rgba(46,125,50,.2)}}
-.start-btn:active{transform:scale(.95)}
-</style>
-</head>
-
-<body><div id="cover">
-<div class="cover-title">El Cuento de Mati</div>
+.shimmer-overlay{position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.4) 50%,transparent 65%);z-index:12;pointer-events:none;animation:shimmerMove 1.2s ease-in-out forwards}
+@keyframes shimmerMove{0%{left:-100%}100%{left:100%}}
+.rainbow{position:absolute;top:10%;left:10%;width:80%;height:60%;border-radius:50% 50% 0 0/100% 100% 0 0;background:conic-gradient(from 180deg,red,orange,yellow,green,blue,indigo,violet,red);opacity:.7;animation:rainbowFade 3s ease-out forwards;pointer-events:none;z-index:20;mask:radial-gradient(ellipse 45% 80% at 50% 100%,transparent 60%,black 61%);-webkit-mask:radial-gradient(ellipse 45% 80% at 50% 100%,transparent 60%,black 61%)}
+@keyframes rainbowFade{0%{opacity:0;transform:scale(.5)}30%{opacity:.7;transform:scale(1)}100%{opacity:0;transform:scale(1.1)}}
+.star-rain{position:absolute;font-size:20px;animation:starRainFall 2s linear forwards;pointer-events:none;z-index:20}
+@keyframes starRainFall{0%{opacity:1;transform:translateY(-20px)}100%{opacity:0;transform:translateY(100vh) rotate(360deg)}}
+.dancing-letter{display:inline-block;animation:danceLetter .5s ease-in-out infinite alternate;font-size:inherit}
+@keyframes danceLetter{0%{transform:translateY(0) rotate(-5deg)}100%{transform:translateY(-10px) rotate(5deg)}}
+.easter-emoji{position:fixed;font-size:60px;z-index:100;pointer-events:none;animation:emojiPop 1.5s ease-out forwards}
+@keyframes emojiPop{0%{opacity:1;transform:scale(0) rotate(0deg)}30%{transform:scale(1.3) rotate(15deg)}60%{transform:scale(1) rotate(-10deg) translateY(-30px)}100%{opacity:0;transform:scale(.5) rotate(20deg) translateY(-80px)}}
+.secret-zone{position:absolute;bottom:0;right:0;width:50px;height:50px;z-index:40;cursor:pointer}
+</style></head>
+<body>
+<div class="screen active" id="cover">
+<div class="cover-title" id="coverTitle">El Cuento de Mati</div>
 <div class="cover-subtitle">&#161;Vamos a cepillar los dientes!</div>
-<button class="start-btn" id="startBtn">&#9654; Comenzar</button>
+<button class="start-btn" id="startBtn">&#9654;</button>
 </div>
-<div class="book" id="book">
-<div class="page center" id="page1" style="background-image:url('images/page1.png')">
-<p class="story-text" id="text1"></p>
-<div class="nav"><button class="nav-btn" onclick="goTo(2)">Siguiente &#8594;</button></div>
+<div class="screen" id="menu">
+<div class="menu-mascot" id="mascotDay"></div>
+<div class="menu-grid" id="menuGrid"></div>
+<div class="secret-zone" id="secretMenu"></div>
 </div>
-<div class="page right" id="page2" style="background-image:url('images/page2.png')">
-<p class="story-text" id="text2"></p>
-<div class="nav">
-<button class="nav-btn" onclick="goTo(1)">&#8592; Atr&#225;s</button>
-<button class="nav-btn" onclick="goTo(3)">Siguiente &#8594;</button>
+<div class="screen" id="game-bichitos">
+<div class="progress-bar"><div class="progress-fill" id="bichitosProgress"></div></div>
+<div id="bichitosArea" style="position:absolute;top:0;left:0;width:100%;height:100%"></div>
+<button class="home-btn" onclick="goMenu()">&#127968;</button>
+<div class="secret-zone" id="secretBichitos"></div>
 </div>
+<div class="screen" id="game-lengua">
+<div class="progress-bar"><div class="progress-fill" id="lenguaProgress"></div></div>
+<div class="tongue-zone" id="tongueZone">&#128069;</div>
+<button class="home-btn" onclick="goMenu()">&#127968;</button>
+<div class="secret-zone" id="secretLengua"></div>
 </div>
-<div class="page right" id="page3" style="background-image:url('images/page3.png')">
-<p class="story-text top" id="text3"></p>
-<div class="interactive-overlay" id="bichitosArea"></div>
-<div class="nav">
-<button class="nav-btn" onclick="goTo(2)">&#8592; Atr&#225;s</button>
-<button class="nav-btn hidden" id="nav3next" onclick="goTo(4)">Siguiente &#8594;</button>
+<div class="screen" id="game-vaso">
+<div class="progress-bar"><div class="progress-fill" id="vasoProgress"></div></div>
+<div class="grifo" id="grifo">&#128688;</div>
+<div class="vaso-container"><div class="vaso"><div class="vaso-agua" id="vasoAgua"></div></div></div>
+<button class="home-btn" onclick="goMenu()">&#127968;</button>
+<div class="secret-zone" id="secretVaso"></div>
 </div>
+<div class="screen" id="game-burbujas">
+<div class="progress-bar"><div class="progress-fill" id="burbujasProgress"></div></div>
+<div class="pasta-tubo" id="pastaTubo">&#129523;</div>
+<button class="home-btn" onclick="goMenu()">&#127968;</button>
+<div class="secret-zone" id="secretBurbujas"></div>
 </div>
-<div class="page right" id="page4" style="background-image:url('images/page4.png')">
-<p class="story-text top" id="text4"></p>
-<div class="progress-dots" id="tongueDots">
-<div class="progress-dot" id="dot0"></div>
-<div class="progress-dot" id="dot1"></div>
-<div class="progress-dot" id="dot2"></div>
+<div class="screen" id="game-cepillo">
+<div id="cepilloFase" style="position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;padding:20px"></div>
+<button class="home-btn" onclick="goMenu()">&#127968;</button>
+<div class="secret-zone" id="secretCepillo"></div>
 </div>
-<div class="interactive-overlay">
-<div class="tongue-zone" id="tongueZone"></div>
-</div>
-<div class="nav">
-<button class="nav-btn" onclick="goTo(3)">&#8592; Atr&#225;s</button>
-<button class="nav-btn hidden" id="nav4next" onclick="goTo(5)">Siguiente &#8594;</button>
-</div>
-</div>
-<div class="page right" id="page5" style="background-image:url('images/page5.png')">
-<p class="story-text" id="text5"></p>
-<div class="nav">
-<button class="nav-btn" onclick="goTo(4)">&#8592; Atr&#225;s</button>
-<button class="nav-btn" onclick="replayGame()">&#128260; Jugar de nuevo</button>
-</div>
-</div>
-</div>
-
-<script>let currentPage=1,bichitosLeft=12,tongueTaps=0,audioCtx=null,page5Played=false;
-let bichMoveIntervals=[];
-const bichColors=[
-{body:'radial-gradient(ellipse at 40% 35%,#ce93d8,#7b1fa2)',accent:'#7b1fa2',splat:'#ce93d8'},
-{body:'radial-gradient(ellipse at 40% 35%,#81d4fa,#0277bd)',accent:'#0277bd',splat:'#81d4fa'},
-{body:'radial-gradient(ellipse at 40% 35%,#ffcc80,#e65100)',accent:'#e65100',splat:'#ffcc80'},
-{body:'radial-gradient(ellipse at 40% 35%,#f48fb1,#c2185b)',accent:'#c2185b',splat:'#f48fb1'},
-{body:'radial-gradient(ellipse at 40% 35%,#8fef6f,#3ea832)',accent:'#3ea832',splat:'#8fef6f'},
-{body:'radial-gradient(ellipse at 40% 35%,#fff59d,#f9a825)',accent:'#f9a825',splat:'#fff59d'},
-{body:'radial-gradient(ellipse at 40% 35%,#80deea,#00838f)',accent:'#00838f',splat:'#80deea'},
-{body:'radial-gradient(ellipse at 40% 35%,#ef9a9a,#c62828)',accent:'#c62828',splat:'#ef9a9a'}
+<div class="screen" id="celebracion">
+<div class="success-msg" style="position:relative;top:auto;left:auto;transform:none;font-size:clamp(30px,8vw,50px)">&#127881; &#11088; &#127881;</div>
+<button class="home-btn" onclick="goMenu()" style="position:relative;bottom:auto;right:auto;margin-top:30px;width:80px;height:80px;font-size:36px">&#127968;</button>
+</div><script>
+let audioCtx=null;
+const dayOfWeek=new Date().getDay();
+const menuColors=['#ffcdd2','#fff9c4','#c8e6c9','#bbdefb','#e1bee7','#ffe0b2','#b2dfdb'];
+const dayMascots=['\ud83d\udc36','\ud83d\udc31','\ud83e\udd81','\ud83d\udc3b','\ud83e\udd8a','\ud83d\udc28','\ud83e\udd84'];
+const dayBichColors=['#e53935','#f57c00','#43a047','#1e88e5','#8e24aa','#6d4c41','#00897b'];
+const bichColorPool=[
+{bg:'#ce93d8',border:'#7b1fa2'},{bg:'#81d4fa',border:'#0277bd'},
+{bg:'#ffcc80',border:'#e65100'},{bg:'#f48fb1',border:'#c2185b'},
+{bg:'#8fef6f',border:'#3ea832'},{bg:'#fff59d',border:'#f9a825'},
+{bg:'#80deea',border:'#00838f'},{bg:'#ef9a9a',border:'#c62828'}
 ];
+const popFreqs=[400,500,600,700,800,900];
+const popWaves=['sine','triangle','sawtooth','sine','triangle','sawtooth'];
+let bichitosLeft=0,bichMoveIntervals=[],tongueTaps=0,vasoTaps=0,burbujaCount=0,cepilloTaps=0,cepilloFaseNum=0;
+let rapidTapCount=0,rapidTapTimer=null,titleTapCount=0;
 function getAudioCtx(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==='suspended')audioCtx.resume();return audioCtx}
-function playPop(){try{const c=getAudioCtx(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type='sine';o.frequency.setValueAtTime(600,c.currentTime);o.frequency.exponentialRampToValueAtTime(200,c.currentTime+.15);g.gain.setValueAtTime(.3,c.currentTime);g.gain.exponentialRampToValueAtTime(.01,c.currentTime+.15);o.start(c.currentTime);o.stop(c.currentTime+.15)}catch(e){}}
-function playSuccess(){try{const c=getAudioCtx();[523,659,784].forEach((f,i)=>{const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type='triangle';o.frequency.setValueAtTime(f,c.currentTime+i*.12);g.gain.setValueAtTime(.25,c.currentTime+i*.12);g.gain.exponentialRampToValueAtTime(.01,c.currentTime+i*.12+.3);o.start(c.currentTime+i*.12);o.stop(c.currentTime+i*.12+.3)})}catch(e){}}
-function playCelebration(){try{const c=getAudioCtx();[523,587,659,698,784,880,988,1047].forEach((f,i)=>{const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type='square';o.frequency.setValueAtTime(f,c.currentTime+i*.15);g.gain.setValueAtTime(.12,c.currentTime+i*.15);g.gain.exponentialRampToValueAtTime(.01,c.currentTime+i*.15+.25);o.start(c.currentTime+i*.15);o.stop(c.currentTime+i*.15+.25)})}catch(e){}}
-function playPageTurn(){try{const c=getAudioCtx(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type='sine';o.frequency.setValueAtTime(300,c.currentTime);o.frequency.exponentialRampToValueAtTime(150,c.currentTime+.1);g.gain.setValueAtTime(.15,c.currentTime);g.gain.exponentialRampToValueAtTime(.01,c.currentTime+.12);o.start(c.currentTime);o.stop(c.currentTime+.12)}catch(e){}}
 function vibrate(ms){try{navigator.vibrate&&navigator.vibrate(ms||30)}catch(e){}}
-function typewriterBounce(el,text,speed){el.innerHTML='';let i=0;(function t(){if(i<text.length){const span=document.createElement('span');span.className='char';span.textContent=text[i];span.style.animationDelay=(i*0.03)+'s';el.appendChild(span);i++;setTimeout(t,speed||40)}})()}
-function showBrush(x,y,duration){const brush=document.createElement('div');brush.className='toothbrush brushing';brush.innerHTML='<div class="brush-head"><div class="brush-bristle"></div><div class="brush-bristle"></div><div class="brush-bristle"></div><div class="brush-bristle"></div></div><div class="brush-handle"></div>';brush.style.left=(x-12)+'px';brush.style.top=(y-70)+'px';document.body.appendChild(brush);setTimeout(()=>brush.remove(),duration||850);return brush}
-function spawnFoam(cx,cy,count){for(let i=0;i<(count||4);i++){setTimeout(()=>{const foam=document.createElement('div');foam.className='foam-cloud';foam.style.left=(cx-15+Math.random()*30)+'px';foam.style.top=(cy-15+Math.random()*30)+'px';foam.style.width=foam.style.height=(22+Math.random()*24)+'px';document.body.appendChild(foam);setTimeout(()=>foam.remove(),700)},i*120)}for(let i=0;i<12;i++){setTimeout(()=>{const bub=document.createElement('div');bub.className='foam-bubble';bub.style.left=(cx-25+Math.random()*50)+'px';bub.style.top=(cy-15+Math.random()*30)+'px';bub.style.width=bub.style.height=(4+Math.random()*12)+'px';bub.style.setProperty('--drift',(Math.random()*40-20)+'px');document.body.appendChild(bub);setTimeout(()=>bub.remove(),1900)},i*80)}}
-function spawnPageStars(page){const el=document.getElementById('page'+page);const stars=['⭐','✨','🌟'];for(let i=0;i<8;i++){setTimeout(()=>{const s=document.createElement('div');s.className='page-star';s.textContent=stars[i%3];s.style.left=(10+Math.random()*80)+'%';s.style.top=(20+Math.random()*60)+'%';s.style.animationDelay=(Math.random()*0.5)+'s';el.appendChild(s);setTimeout(()=>s.remove(),2500)},i*150)}}
-
-function goTo(page){if(page<1||page>5)return;playPageTurn();document.querySelectorAll('.page').forEach((p,idx)=>{const n=idx+1;p.className='page '+(n===page?'center':n<page?'left':'right')});currentPage=page;onPageEnter(page)}
-const pageTexts=['Mati y pap\u00e1 estaban comiendo un almuerzo delicioso. \u00a1Qu\u00e9 rico!','\u00a1Oh no! Despu\u00e9s de comer, unos bichitos aparecieron entre los dientes. \u00a1Hay que sacarlos!','\u00a1Toca los bichitos de colores para limpiarlos!','\u00a1Ahora la lengua! Toca 3 veces para cepillarla.','\u00a1Mati tiene los dientes limpios! \u00a1Pap\u00e1 est\u00e1 muy orgulloso! \ud83c\udf89'];
-let entered=new Set([1]);
-function onPageEnter(p){if(!entered.has(p)){entered.add(p);spawnPageStars(p);const el=document.getElementById('text'+p);if(el)typewriterBounce(el,pageTexts[p-1],35)}if(p===5&&!page5Played){page5Played=true;setTimeout(()=>{spawnConfetti();spawnStarBursts();playCelebration()},400)}}
-const bichPos=[{top:'20%',left:'5%'},{top:'20%',left:'25%'},{top:'20%',left:'45%'},{top:'20%',left:'65%'},{top:'40%',left:'10%'},{top:'40%',left:'30%'},{top:'40%',left:'50%'},{top:'40%',left:'70%'},{top:'60%',left:'8%'},{top:'60%',left:'28%'},{top:'60%',left:'48%'},{top:'60%',left:'68%'}];
-function startBichMovement(){bichMoveIntervals.forEach(clearInterval);bichMoveIntervals=[];document.querySelectorAll('#bichitosArea .bichito').forEach((b,i)=>{const delay=Math.random()*1000;setTimeout(()=>{const interval=setInterval(()=>{if(b.classList.contains('dead')||b.classList.contains('foaming')){clearInterval(interval);return}const newTop=(15+Math.random()*50)+'%';const newLeft=(5+Math.random()*75)+'%';b.style.top=newTop;b.style.left=newLeft},1500+Math.random()*1500);bichMoveIntervals.push(interval)},delay)})}
-function createBichitos(){const area=document.getElementById('bichitosArea');area.innerHTML='';bichitosLeft=12;document.getElementById('nav3next').classList.add('hidden');bichPos.forEach((pos,i)=>{const color=bichColors[i%8];const b=document.createElement('div');b.className='bichito';b.style.top=pos.top;b.style.left=pos.left;b.dataset.color=color.splat;b.dataset.accent=color.accent;b.innerHTML='<div class="bichito-body"><div class="bichito-antenna l"></div><div class="bichito-antenna r"></div><div class="bichito-eye l"><div class="bichito-pupil"></div></div><div class="bichito-eye r"><div class="bichito-pupil"></div></div><div class="bichito-mouth"></div><div class="bichito-legs"><div class="bichito-leg"></div><div class="bichito-leg"></div><div class="bichito-leg"></div></div></div>';const body=b.querySelector('.bichito-body');body.style.background=color.body;const legs=b.querySelectorAll('.bichito-leg');legs.forEach(l=>{l.style.background=color.accent});const antennae=b.querySelectorAll('.bichito-antenna');antennae.forEach(a=>{a.style.background=color.accent});const style=document.createElement('style');style.textContent='#bichitosArea .bichito:nth-child('+(i+1)+') .bichito-antenna::after{background:'+color.splat+'}';document.head.appendChild(style);b.addEventListener('pointerdown',e=>tapBichito(e,b));b.addEventListener('pointerenter',()=>{b.classList.add('scared')});b.addEventListener('pointerleave',()=>{b.classList.remove('scared')});area.appendChild(b)});startBichMovement()}
-function tapBichito(e,el){if(el.classList.contains('dead')||el.classList.contains('foaming'))return;e.preventDefault();e.stopPropagation();vibrate(50);playPop();const rect=el.getBoundingClientRect();const cx=rect.left+rect.width/2,cy=rect.top+rect.height/2;showBrush(cx,cy,850);el.classList.add('foaming');spawnFoam(cx,cy,4);const splatColor=el.dataset.color||'#8fef6f';const accentColor=el.dataset.accent||'#3ea832';setTimeout(()=>{for(let i=0;i<10;i++){const p=document.createElement('div');p.className='splat';const angle=(Math.PI*2/10)*i;const dist=20+Math.random()*25;p.style.left=cx+'px';p.style.top=cy+'px';p.style.setProperty('--dx',Math.cos(angle)*dist+'px');p.style.setProperty('--dy',Math.sin(angle)*dist+'px');p.style.background=[splatColor,accentColor,splatColor,accentColor,'#fff'][i%5];document.body.appendChild(p);setTimeout(()=>p.remove(),700)}el.classList.add('dead');bichitosLeft--;if(bichitosLeft<=0){setTimeout(()=>{playSuccess();const sh=document.createElement('div');sh.className='shimmer-overlay';document.getElementById('page3').appendChild(sh);setTimeout(()=>sh.remove(),1400);const msg=document.createElement('div');msg.className='success-msg';msg.textContent='\u00a1Muy bien! \u00a1Dientes limpios!';document.getElementById('page3').appendChild(msg);setTimeout(()=>msg.remove(),2500);document.getElementById('nav3next').classList.remove('hidden')},300)}},850)}
-function setupTongue(){tongueTaps=0;document.querySelectorAll('.progress-dot').forEach(d=>d.classList.remove('filled'));document.getElementById('nav4next').classList.add('hidden');const tz=document.getElementById('tongueZone');tz.classList.remove('done');const newTz=tz.cloneNode(true);tz.parentNode.replaceChild(newTz,tz);newTz.addEventListener('pointerdown',tapTongue)}
-function tapTongue(e){if(tongueTaps>=3)return;e.preventDefault();vibrate(40);playPop();tongueTaps++;const dot=document.getElementById('dot'+(tongueTaps-1));if(dot)dot.classList.add('filled');const rect=e.target.getBoundingClientRect();const cx=rect.left+rect.width/2;const cy=rect.top+rect.height/2;showBrush(cx,cy,800);spawnFoam(cx,cy,3);if(tongueTaps>=3){document.getElementById('tongueZone').classList.add('done');setTimeout(()=>{playSuccess();document.getElementById('nav4next').classList.remove('hidden');const msg=document.createElement('div');msg.className='success-msg';msg.textContent='\u00a1Muy bien! \u00a1Lengua limpia!';document.getElementById('page4').appendChild(msg);setTimeout(()=>msg.remove(),2500)},500)}}
-function spawnStarBursts(){const el=document.getElementById('page5');const stars=['⭐','✨','🌟','💫'];for(let i=0;i<20;i++){setTimeout(()=>{const s=document.createElement('div');s.className='star-burst';s.textContent=stars[i%4];const angle=Math.random()*Math.PI*2;const dist=80+Math.random()*120;s.style.left='50%';s.style.top='40%';s.style.setProperty('--sx',Math.cos(angle)*(dist*0.5)+'px');s.style.setProperty('--sy',Math.sin(angle)*(dist*0.5)+'px');s.style.setProperty('--ex',Math.cos(angle)*dist+'px');s.style.setProperty('--ey',Math.sin(angle)*dist+'px');el.appendChild(s);setTimeout(()=>s.remove(),1500)},i*80)}}
-function spawnConfetti(){const colors=['#ff6b6b','#feca57','#48dbfb','#ff9ff3','#54a0ff','#5f27cd','#01a3a4','#f368e0','#ff9f43'];const el=document.getElementById('page5');for(let i=0;i<70;i++){const c=document.createElement('div');c.className='confetti';c.style.left=Math.random()*100+'%';c.style.top='-20px';c.style.background=colors[i%colors.length];c.style.setProperty('--dur',(1.5+Math.random()*2)+'s');c.style.animationDelay=(Math.random()*1.5)+'s';c.style.width=(6+Math.random()*8)+'px';c.style.height=(6+Math.random()*8)+'px';c.style.borderRadius=Math.random()>.5?'50%':'2px';el.appendChild(c);setTimeout(()=>c.remove(),5000)}for(let i=0;i<15;i++){const s=document.createElement('div');s.className='sparkle';s.style.left=(10+Math.random()*80)+'%';s.style.top=(10+Math.random()*60)+'%';s.style.animationDelay=(Math.random()*2)+'s';el.appendChild(s);setTimeout(()=>s.remove(),6000)}}
-function startGame(){getAudioCtx();document.getElementById('cover').classList.add('hidden')}
-function replayGame(){bichMoveIntervals.forEach(clearInterval);bichMoveIntervals=[];bichitosLeft=12;tongueTaps=0;page5Played=false;entered=new Set([1]);document.querySelectorAll('#page5 .confetti, #page5 .sparkle, #page5 .star-burst').forEach(el=>el.remove());document.querySelectorAll('.page').forEach((p,idx)=>{const n=idx+1;p.className='page '+(n===1?'center':'right')});for(let i=1;i<=5;i++){const t=document.getElementById('text'+i);if(t)t.textContent=''}createBichitos();setupTongue();document.getElementById('cover').classList.remove('hidden');currentPage=1}
-function init(){typewriterBounce(document.getElementById('text1'),pageTexts[0],35);createBichitos();setupTongue();document.getElementById('startBtn').addEventListener('pointerdown',startGame)}
+function randInt(min,max){return Math.floor(Math.random()*(max-min+1))+min}
+function randFloat(min,max){return Math.random()*(max-min)+min}
+function pickRandom(arr){return arr[Math.floor(Math.random()*arr.length)]}
+function playPop(){try{const c=getAudioCtx(),i=randInt(0,5),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type=popWaves[i];o.frequency.setValueAtTime(popFreqs[i],c.currentTime);o.frequency.exponentialRampToValueAtTime(150,c.currentTime+.15);g.gain.setValueAtTime(.3,c.currentTime);g.gain.exponentialRampToValueAtTime(.01,c.currentTime+.15);o.start(c.currentTime);o.stop(c.currentTime+.15)}catch(e){}}
+function playBoing(){try{const c=getAudioCtx(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type='sine';const f=randInt(200,400);o.frequency.setValueAtTime(f,c.currentTime);o.frequency.exponentialRampToValueAtTime(f*3,c.currentTime+.05);o.frequency.exponentialRampToValueAtTime(f,c.currentTime+.15);g.gain.setValueAtTime(.2,c.currentTime);g.gain.exponentialRampToValueAtTime(.01,c.currentTime+.2);o.start(c.currentTime);o.stop(c.currentTime+.2)}catch(e){}}
+function playEek(){try{const c=getAudioCtx(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type='sine';o.frequency.setValueAtTime(1200+Math.random()*400,c.currentTime);o.frequency.exponentialRampToValueAtTime(2000,c.currentTime+.08);g.gain.setValueAtTime(.15,c.currentTime);g.gain.exponentialRampToValueAtTime(.01,c.currentTime+.1);o.start(c.currentTime);o.stop(c.currentTime+.1)}catch(e){}}
+function playWoo(){try{const c=getAudioCtx(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type='sawtooth';o.frequency.setValueAtTime(300,c.currentTime);o.frequency.exponentialRampToValueAtTime(1500,c.currentTime+.3);g.gain.setValueAtTime(.2,c.currentTime);g.gain.exponentialRampToValueAtTime(.01,c.currentTime+.35);o.start(c.currentTime);o.stop(c.currentTime+.35)}catch(e){}}
+function playSuccess(){try{const c=getAudioCtx();const melodies=[[523,659,784],[440,554,659,880],[392,494,587,784]];const mel=pickRandom(melodies);mel.forEach((f,i)=>{const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type=pickRandom(['triangle','sine']);o.frequency.setValueAtTime(f,c.currentTime+i*.12);g.gain.setValueAtTime(.25,c.currentTime+i*.12);g.gain.exponentialRampToValueAtTime(.01,c.currentTime+i*.12+.3);o.start(c.currentTime+i*.12);o.stop(c.currentTime+i*.12+.3)})}catch(e){}}
+function playCelebration(){try{const c=getAudioCtx();[523,587,659,698,784,880,988,1047].forEach((f,i)=>{const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type='square';o.frequency.setValueAtTime(f,c.currentTime+i*.12);g.gain.setValueAtTime(.12,c.currentTime+i*.12);g.gain.exponentialRampToValueAtTime(.01,c.currentTime+i*.12+.2);o.start(c.currentTime+i*.12);o.stop(c.currentTime+i*.12+.2)})}catch(e){}}function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')}
+function goMenu(){showScreen('menu')}
+function spawnConfetti(el){const colors=['#ff6b6b','#feca57','#48dbfb','#ff9ff3','#54a0ff','#5f27cd','#01a3a4','#f368e0','#ff9f43'];const target=el||document.querySelector('.screen.active');for(let i=0;i<50;i++){const c=document.createElement('div');c.className='confetti';c.style.left=Math.random()*100+'%';c.style.top='-20px';c.style.background=colors[i%colors.length];c.style.setProperty('--dur',(1.5+Math.random()*2)+'s');c.style.animationDelay=(Math.random()*1)+'s';c.style.width=(6+Math.random()*8)+'px';c.style.height=(6+Math.random()*8)+'px';c.style.borderRadius=Math.random()>.5?'50%':'2px';target.appendChild(c);setTimeout(()=>c.remove(),4000)}}
+function spawnStarBursts(el){const target=el||document.querySelector('.screen.active');const stars=['\u2b50','\u2728','\ud83c\udf1f','\ud83d\udcab'];for(let i=0;i<15;i++){setTimeout(()=>{const s=document.createElement('div');s.className='star-burst';s.textContent=stars[i%4];const angle=Math.random()*Math.PI*2;const dist=80+Math.random()*100;s.style.left='50%';s.style.top='40%';s.style.setProperty('--sx',Math.cos(angle)*(dist*.5)+'px');s.style.setProperty('--sy',Math.sin(angle)*(dist*.5)+'px');s.style.setProperty('--ex',Math.cos(angle)*dist+'px');s.style.setProperty('--ey',Math.sin(angle)*dist+'px');target.appendChild(s);setTimeout(()=>s.remove(),1500)},i*60)}}
+function showSuccessMsg(text,el){const target=el||document.querySelector('.screen.active');const msg=document.createElement('div');msg.className='success-msg';msg.textContent=text;target.appendChild(msg);setTimeout(()=>msg.remove(),2500)}
+function celebrate(){playCelebration();const scr=document.querySelector('.screen.active');spawnConfetti(scr);spawnStarBursts(scr);if(Math.random()<.25){setTimeout(()=>{const rb=document.createElement('div');rb.className='rainbow';scr.appendChild(rb);setTimeout(()=>rb.remove(),3500)},500)}setTimeout(()=>showScreen('celebracion'),1800)}
+function spawnStarRain(el){const target=el||document.querySelector('.screen.active');const emojis=['\u2b50','\u2728','\ud83c\udf1f','\ud83d\udcab','\u2764\ufe0f','\ud83d\udc9c'];for(let i=0;i<30;i++){setTimeout(()=>{const s=document.createElement('div');s.className='star-rain';s.textContent=pickRandom(emojis);s.style.left=Math.random()*100+'%';s.style.top='-20px';s.style.animationDelay=(Math.random()*.5)+'s';target.appendChild(s);setTimeout(()=>s.remove(),2500)},i*60)}}
+function spawnEasterEmoji(x,y){const emojis=['\ud83e\udd73','\ud83d\udc7e','\ud83d\ude80','\ud83c\udf08','\ud83e\udd84','\ud83c\udf89','\ud83d\udc96','\ud83c\udf1e','\ud83c\udf4d','\ud83e\udd16'];const e=document.createElement('div');e.className='easter-emoji';e.textContent=pickRandom(emojis);e.style.left=x+'px';e.style.top=y+'px';document.body.appendChild(e);setTimeout(()=>e.remove(),1600)}
+function setupSecretZones(){document.querySelectorAll('.secret-zone').forEach(z=>{z.addEventListener('pointerdown',e=>{e.preventDefault();const r=z.getBoundingClientRect();spawnEasterEmoji(r.left,r.top-60);vibrate(20)})})}
+function setupRapidTap(){document.querySelectorAll('.screen').forEach(scr=>{scr.addEventListener('pointerdown',e=>{if(e.target.closest('.bichito')||e.target.closest('button')||e.target.closest('.tongue-zone')||e.target.closest('.grifo')||e.target.closest('.pasta-tubo')||e.target.closest('.cepillo-opcion')||e.target.closest('.boca')||e.target.closest('.secret-zone'))return;rapidTapCount++;clearTimeout(rapidTapTimer);rapidTapTimer=setTimeout(()=>{rapidTapCount=0},1000);if(rapidTapCount>=5){rapidTapCount=0;spawnStarRain(scr);if(Math.random()<.15)playWoo();else playSuccess()}})})}function setupMenu(){const grid=document.getElementById('menuGrid');const games=[{icon:'\ud83e\uddb7',color:'#e53935',game:'game-bichitos'},{icon:'\ud83d\udc45',color:'#f57c00',game:'game-lengua'},{icon:'\ud83d\udca7',color:'#1e88e5',game:'game-vaso'},{icon:'\ud83e\udee7',color:'#8e24aa',game:'game-burbujas'},{icon:'\ud83e\udeb9',color:'#43a047',game:'game-cepillo'}];grid.innerHTML='';games.forEach((g,i)=>{const btn=document.createElement('button');btn.className='menu-btn';btn.textContent=g.icon;btn.style.background=g.color;btn.style.animationDelay=(i*.1)+'s';btn.addEventListener('pointerdown',()=>{vibrate(30);playPop();startGame(g.game)});grid.appendChild(btn)});document.getElementById('mascotDay').textContent=dayMascots[dayOfWeek];document.getElementById('menu').style.background=menuColors[dayOfWeek]}
+function startGame(gameId){if(gameId==='game-bichitos')initBichitos();else if(gameId==='game-lengua')initLengua();else if(gameId==='game-vaso')initVaso();else if(gameId==='game-burbujas')initBurbujas();else if(gameId==='game-cepillo')initCepillo();showScreen(gameId)}
+function initBichitos(){const area=document.getElementById('bichitosArea');area.innerHTML='';bichMoveIntervals.forEach(clearInterval);bichMoveIntervals=[];const count=randInt(6,15);bichitosLeft=count;document.getElementById('bichitosProgress').style.width='0%';for(let i=0;i<count;i++){const isBoss=Math.random()<.2;const size=isBoss?80:randInt(40,65);const color=pickRandom(bichColorPool);const dayColor=dayBichColors[dayOfWeek];const useColor=Math.random()<.3?{bg:dayColor,border:dayColor}:color;const speed=randFloat(1,3);const b=document.createElement('div');b.className='bichito'+(isBoss?' bichito-boss':'');b.style.width=size+'px';b.style.height=size+'px';b.style.background=useColor.bg;b.style.border='3px solid '+useColor.border;b.style.setProperty('--speed',speed+'s');b.style.fontSize=(size*.5)+'px';b.style.top=(15+Math.random()*60)+'%';b.style.left=(5+Math.random()*75)+'%';b.dataset.hits=isBoss?'2':'1';b.dataset.boss=isBoss?'1':'0';b.innerHTML='<span class="bichito-face">\ud83e\udda0</span>';b.addEventListener('pointerdown',e=>tapBichito(e,b));b.addEventListener('pointerenter',()=>{b.classList.add('scared');playEek()});b.addEventListener('pointerleave',()=>b.classList.remove('scared'));area.appendChild(b);playBoing();const interval=setInterval(()=>{if(b.classList.contains('dead'))return clearInterval(interval);b.style.top=(15+Math.random()*60)+'%';b.style.left=(5+Math.random()*75)+'%'},randInt(1500,3500));bichMoveIntervals.push(interval)}}
+function tapBichito(e,el){if(el.classList.contains('dead')||el.classList.contains('foaming'))return;e.preventDefault();e.stopPropagation();vibrate(50);let hits=parseInt(el.dataset.hits)-1;el.dataset.hits=hits;if(hits>0){playPop();el.style.transform='scale(.8)';setTimeout(()=>el.style.transform='',200);return}playPop();if(Math.random()<.15)setTimeout(playWoo,100);el.classList.add('foaming');const total=parseInt(document.getElementById('bichitosArea').children.length);setTimeout(()=>{el.classList.add('dead');bichitosLeft--;const progress=((total-bichitosLeft)/total)*100;document.getElementById('bichitosProgress').style.width=progress+'%';if(bichitosLeft<=0){playSuccess();showSuccessMsg('\u2728\ud83e\uddb7\u2728');setTimeout(celebrate,1200)}},600)}
+function initLengua(){tongueTaps=0;document.getElementById('lenguaProgress').style.width='0%';const tz=document.getElementById('tongueZone');tz.textContent='\ud83d\udc45';const newTz=tz.cloneNode(true);tz.parentNode.replaceChild(newTz,tz);newTz.addEventListener('pointerdown',tapTongue)}
+function tapTongue(e){if(tongueTaps>=5)return;e.preventDefault();vibrate(40);playPop();tongueTaps++;document.getElementById('lenguaProgress').style.width=(tongueTaps/5*100)+'%';if(tongueTaps>=5){document.getElementById('tongueZone').textContent='\u2728';playSuccess();showSuccessMsg('\u2728\ud83d\udc45\u2728');setTimeout(celebrate,1200)}}
+function initVaso(){vasoTaps=0;document.getElementById('vasoProgress').style.width='0%';document.getElementById('vasoAgua').style.height='0%';const grifo=document.getElementById('grifo');const newG=grifo.cloneNode(true);grifo.parentNode.replaceChild(newG,grifo);newG.addEventListener('pointerdown',tapGrifo)}
+function tapGrifo(e){if(vasoTaps>=10)return;e.preventDefault();vibrate(30);playPop();vasoTaps++;document.getElementById('vasoProgress').style.width=(vasoTaps/10*100)+'%';document.getElementById('vasoAgua').style.height=(vasoTaps*10)+'%';const grifo=document.getElementById('grifo');const rect=grifo.getBoundingClientRect();const gota=document.createElement('div');gota.className='gota';gota.style.left=(rect.left+rect.width/2-4)+'px';gota.style.top=(rect.bottom)+'px';document.body.appendChild(gota);setTimeout(()=>gota.remove(),700);if(vasoTaps>=10){document.getElementById('vasoAgua').style.background='linear-gradient(180deg,#80deea,#00bcd4)';document.getElementById('vasoAgua').style.boxShadow='0 0 20px rgba(0,188,212,.6)';playSuccess();showSuccessMsg('\u2728\ud83d\udca7\u2728');setTimeout(celebrate,1200)}}function initBurbujas(){burbujaCount=0;document.getElementById('burbujasProgress').style.width='0%';const tubo=document.getElementById('pastaTubo');const scr=document.getElementById('game-burbujas');scr.querySelectorAll('.burbuja').forEach(b=>b.remove());const newT=tubo.cloneNode(true);tubo.parentNode.replaceChild(newT,tubo);let pressing=false;let bubInterval=null;newT.addEventListener('pointerdown',e=>{e.preventDefault();pressing=true;spawnBubble(e);bubInterval=setInterval(()=>{if(pressing&&burbujaCount<20)spawnBubble(e)},250)});newT.addEventListener('pointerup',()=>{pressing=false;clearInterval(bubInterval)});newT.addEventListener('pointerleave',()=>{pressing=false;clearInterval(bubInterval)})}
+function spawnBubble(e){if(burbujaCount>=20)return;burbujaCount++;playPop();vibrate(20);document.getElementById('burbujasProgress').style.width=(burbujaCount/20*100)+'%';const scr=document.getElementById('game-burbujas');const size=randInt(20,50);const b=document.createElement('div');b.className='burbuja';b.style.width=size+'px';b.style.height=size+'px';b.style.left=(10+Math.random()*80)+'%';b.style.bottom='20%';b.style.setProperty('--dur',(2+Math.random()*2)+'s');b.style.setProperty('--floatY',(-200-Math.random()*300)+'px');scr.appendChild(b);setTimeout(()=>b.remove(),4000);if(burbujaCount>=20){playSuccess();showSuccessMsg('\u2728\ud83e\udee7\u2728');setTimeout(celebrate,1200)}}
+function initCepillo(){cepilloFaseNum=0;cepilloTaps=0;const fase=document.getElementById('cepilloFase');fase.innerHTML='';const colors=[{name:'rojo',bg:'#e53935'},{name:'azul',bg:'#1e88e5'},{name:'verde',bg:'#43a047'},{name:'rosa',bg:'#e91e63'}];colors.forEach(c=>{const btn=document.createElement('button');btn.className='cepillo-opcion';btn.style.background=c.bg;btn.innerHTML='\ud83e\udeb9';btn.addEventListener('pointerdown',()=>{vibrate(30);playPop();btn.classList.add('selected');setTimeout(()=>showBocaFase(),500)});fase.appendChild(btn)})}
+function showBocaFase(){cepilloFaseNum=1;cepilloTaps=0;const fase=document.getElementById('cepilloFase');fase.innerHTML='';const bar=document.createElement('div');bar.className='progress-bar';bar.style.position='relative';bar.style.marginBottom='20px';bar.style.width='80%';bar.innerHTML='<div class="progress-fill" id="cepilloProgress" style="width:0%"></div>';fase.appendChild(bar);const boca=document.createElement('div');boca.className='boca';boca.textContent='\ud83e\uddb7';boca.style.position='relative';boca.style.top='auto';boca.style.left='auto';boca.style.transform='none';boca.addEventListener('pointerdown',e=>{tapBoca(e,boca)});fase.appendChild(boca)}
+function tapBoca(e,boca){if(cepilloTaps>=5)return;e.preventDefault();vibrate(40);playPop();cepilloTaps++;document.getElementById('cepilloProgress').style.width=(cepilloTaps/5*100)+'%';const rect=boca.getBoundingClientRect();for(let i=0;i<4;i++){const esp=document.createElement('div');esp.className='espuma-cepillo';esp.style.left=(rect.left+Math.random()*rect.width)+'px';esp.style.top=(rect.top+Math.random()*rect.height)+'px';document.body.appendChild(esp);setTimeout(()=>esp.remove(),1000)}if(cepilloTaps>=5){boca.textContent='\u2728';playSuccess();showSuccessMsg('\u2728\ud83e\udeb9\u2728');setTimeout(celebrate,1200)}}
+function setupTitleEasterEgg(){document.getElementById('coverTitle').addEventListener('pointerdown',()=>{titleTapCount++;if(titleTapCount>=3){titleTapCount=0;const title=document.getElementById('coverTitle');const text=title.textContent;title.innerHTML='';text.split('').forEach((ch,i)=>{const span=document.createElement('span');span.className='dancing-letter';span.textContent=ch;span.style.animationDelay=(i*.05)+'s';title.appendChild(span)});setTimeout(()=>{title.textContent=text},3000)}})}
+function init(){setupMenu();setupSecretZones();setupRapidTap();setupTitleEasterEgg();document.getElementById('startBtn').addEventListener('pointerdown',()=>{getAudioCtx();playPop();showScreen('menu')})}
 document.addEventListener('DOMContentLoaded',init);
 </script>
 </body>
 </html>
-
